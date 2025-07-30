@@ -43,7 +43,7 @@ import static com.mongodb.client.model.Sorts.descending;
  * MongoDB implementation of ComponentRepository using JsonSerde for data serialization.
  */
 @Repository("mongoComponentRepository")
-public final class MongoComponentRepository implements ExtendedVersionedRepository<Component> {
+public class MongoComponentRepository implements ExtendedVersionedRepository<Component> {
 
     private final MongoCollection<Document> collection;
     private final MongoCollection<Document> elementsCollection;

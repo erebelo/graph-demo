@@ -7,12 +7,11 @@
 package com.erebelo.graphdemo.persistence.sqllite;
 
 import com.erebelo.graphdemo.persistence.GraphRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * Graph listener repository using an in memory SQLite implementation.
  */
-@Repository("sqliteGraphRepository")
+//@Repository("sqliteGraphRepository")
 public record SqliteGraphRepository(
         SqliteNodeRepository nodes, SqliteEdgeRepository edges, SqliteComponentRepository components)
         implements GraphRepository {

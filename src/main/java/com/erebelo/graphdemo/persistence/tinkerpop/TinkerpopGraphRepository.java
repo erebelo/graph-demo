@@ -7,12 +7,11 @@
 package com.erebelo.graphdemo.persistence.tinkerpop;
 
 import com.erebelo.graphdemo.persistence.GraphRepository;
-import org.springframework.stereotype.Repository;
 
 /**
  * Graph listener repository using an in memory Tinkerpop implementation.
  */
-@Repository("tinkerpopGraphRepository")
+//@Repository("tinkerpopGraphRepository")
 public record TinkerpopGraphRepository(
         TinkerpopNodeRepository nodes, TinkerpopEdgeRepository edges, TinkerpopComponentRepository components)
         implements GraphRepository {

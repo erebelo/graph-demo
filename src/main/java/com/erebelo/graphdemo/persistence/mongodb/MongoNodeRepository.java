@@ -45,7 +45,7 @@ import static com.mongodb.client.model.Sorts.descending;
  * MongoDB implementation of NodeRepository using JsonSerde for data serialization.
  */
 @Repository("mongoNodeRepository")
-public final class MongoNodeRepository implements ExtendedVersionedRepository<Node> {
+public class MongoNodeRepository implements ExtendedVersionedRepository<Node> {
 
     private final MongoCollection<Document> collection;
     private final MongoCollection<Document> edgesCollection;

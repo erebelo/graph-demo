@@ -44,7 +44,7 @@ import static com.mongodb.client.model.Sorts.descending;
  * MongoDB implementation of EdgeRepository using JsonSerde for data serialization.
  */
 @Repository("mongoEdgeRepository")
-public final class MongoEdgeRepository implements ExtendedVersionedRepository<Edge> {
+public class MongoEdgeRepository implements ExtendedVersionedRepository<Edge> {
 
     private final MongoCollection<Document> collection;
     private final MongoCollection<Document> componentElementsCollection;
