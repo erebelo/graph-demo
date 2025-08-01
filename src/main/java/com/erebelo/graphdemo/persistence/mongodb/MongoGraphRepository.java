@@ -20,7 +20,7 @@ public record MongoGraphRepository(
         MongoGraphOperations graphOperations)
         implements GraphRepository {
 
-    public static MongoGraphRepository create(final MongoSession session) {
+        public static MongoGraphRepository create(final MongoSession session) {
 
         final var nodeRepository = new MongoNodeRepository(session.database());
         final var edgeRepository = new MongoEdgeRepository(session.database(), nodeRepository);
