@@ -17,6 +17,7 @@ import com.erebelo.graphdemo.model.Operations;
 import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.simple.SimpleComponent;
 import org.jgrapht.Graph;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ import java.util.Set;
  * Note: Due to the immutable nature of SimpleNode/SimpleEdge records and their inclusion of components in equals/hashCode, we cannot modify
  * Element#components() without breaking graph lookups. Instead, we track membership externally.
  */
-public final class ComponentOperations implements Operations<Component> {
+@Service
+public class ComponentOperations implements Operations<Component> {
 
     private final Graph<Reference<Node>, Reference<Edge>> graph;
     private final Map<NanoId, List<Component>> componentVersions;

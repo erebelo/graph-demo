@@ -18,6 +18,7 @@ import org.jgrapht.GraphPath;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.cycle.CycleDetector;
 import org.jgrapht.graph.AsSubgraph;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,7 +30,8 @@ import java.util.Set;
 /**
  * Helper utilities for graph operations.
  */
-public final class OperationsHelper {
+@Service
+public class OperationsHelper {
 
     /**
      * Type contains only static members.

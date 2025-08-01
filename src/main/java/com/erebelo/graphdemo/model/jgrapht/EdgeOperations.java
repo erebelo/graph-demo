@@ -16,6 +16,7 @@ import com.erebelo.graphdemo.model.Operations;
 import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.simple.SimpleEdge;
 import org.jgrapht.Graph;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ import java.util.Set;
 /**
  * JGraphT-based implementation of edge operations for versioned graph elements.
  */
-public final class EdgeOperations implements Operations<Edge> {
+@Service
+public class EdgeOperations implements Operations<Edge> {
 
     private final Graph<Reference<Node>, Reference<Edge>> graph;
 

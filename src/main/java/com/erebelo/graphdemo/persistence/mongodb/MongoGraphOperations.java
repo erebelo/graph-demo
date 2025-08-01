@@ -14,6 +14,7 @@ import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.GraphLookupOptions;
 import org.bson.Document;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +25,8 @@ import java.util.Set;
 /**
  * MongoDB-specific graph operations using native aggregation pipeline features.
  */
-public final class MongoGraphOperations {
+@Repository
+public class MongoGraphOperations {
 
     private final MongoDatabase database;
     private final MongoNodeRepository nodeRepository;

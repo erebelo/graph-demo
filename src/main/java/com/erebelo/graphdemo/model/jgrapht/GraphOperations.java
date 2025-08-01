@@ -18,13 +18,15 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.event.GraphListener;
 import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedMultigraph;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Operations that apply to the entire graph.
  */
-public final class GraphOperations {
+@Service
+public class GraphOperations {
 
     /**
      * JGraphT delegated in memory graph.

@@ -8,6 +8,7 @@ package com.erebelo.graphdemo.persistence;
 import com.erebelo.graphdemo.common.annotation.Stable;
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
+import com.erebelo.graphdemo.model.Reference;
 import org.jgrapht.event.GraphListener;
 
 /**
@@ -16,7 +17,7 @@ import org.jgrapht.event.GraphListener;
  * success.
  */
 @Stable
-public interface GraphListenerRepository extends GraphListener<Node, Edge> {
+public interface GraphListenerRepository extends GraphListener<Reference<Node>, Reference<Edge>> {
 
     /**
      * Execute the queued operations to the persistent store.
