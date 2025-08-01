@@ -32,6 +32,17 @@ public class MongoGraphRepository implements GraphRepository {
                 this.graphOperations = graphOperations;
         }
 
+        public static MongoGraphRepository create(final MongoSession session) {
+                final var nodeRepository = new MongoNodeRepository(session.database());
+                final var edgeRepository = new MongoEdgeRepository(session.database(), nodeRepository);
+                final var graphOperations = new MongoGraphOperations(session.database(), nodeRepository, edgeRepository);
+                return new MongoGraphRepository(
+                        nodeRepository,
+                        edgeRepository,
+                        new MongoComponentRepository(session.database(), nodeRepository, edgeRepository),
+                        graphOperations);
+        }
+
         @Override
         public ExtendedVersionedRepository<Node> nodes() {
                 return nodes;
