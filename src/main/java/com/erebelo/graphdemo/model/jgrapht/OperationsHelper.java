@@ -89,11 +89,12 @@ public class OperationsHelper {
         final var edges = new HashSet<Edge>();
 
         elements.forEach(element -> {
-            switch (element) {
-                case final Node node -> nodes.add(node);
-                case final Edge edge -> edges.add(edge);
-                default ->
-                    throw new IllegalArgumentException("Unknown element type: " + element.getClass().getSimpleName());
+            if (element instanceof Node node) {
+                nodes.add(node);
+            } else if (element instanceof Edge edge) {
+                edges.add(edge);
+            } else {
+                throw new IllegalArgumentException("Unknown element type: " + element.getClass().getSimpleName());
             }
         });
 

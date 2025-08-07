@@ -21,8 +21,9 @@ public record Path(List<Element> elements) {
 
         Objects.requireNonNull(elements);
         if (!elements.isEmpty()) {
-            Invariant.require(elements.getFirst() instanceof Node, "first element of a non‐empty path must be a Node");
-            Invariant.require(elements.getLast() instanceof Node, "last element of a non‐empty path must be a Node");
+            Invariant.require(elements.get(0) instanceof Node, "first element of a non‐empty path must be a Node");
+            Invariant.require(elements.get(elements.size() - 1) instanceof Node,
+                    "last element of a non‐empty path must be a Node");
         }
         this.elements = List.copyOf(elements);
     }

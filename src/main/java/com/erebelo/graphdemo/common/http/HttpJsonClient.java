@@ -148,15 +148,17 @@ public final class HttpJsonClient {
     private static HttpResponse<InputStream> execute(final Supplier<HttpRequest> fx) {
 
         final var request = fx.get();
-        try (var client = HTTP_BUILDER.build()) {
-            final var response = Io.withReturn(() -> client.send(request, HttpResponse.BodyHandlers.ofInputStream()));
-            final var code = response.statusCode();
-            if ((code < HttpURLConnection.HTTP_OK) || (code >= HttpURLConnection.HTTP_MULT_CHOICE)) {
-                final var content = Pipes.charsSupplier().read(() -> HttpResponseCharset.getReader(response));
-                throw new HttpException(code, content);
-            }
-            return response;
+        final HttpClient client = HTTP_BUILDER.build();
+        final HttpResponse<InputStream> response = Io
+                .withReturn(() -> client.send(request, HttpResponse.BodyHandlers.ofInputStream()));
+        final var code = response.statusCode();
+
+        if ((code < HttpURLConnection.HTTP_OK) || (code >= HttpURLConnection.HTTP_MULT_CHOICE)) {
+            final var content = Pipes.charsSupplier().read(() -> HttpResponseCharset.getReader(response));
+            throw new HttpException(code, content);
         }
+
+        return response;
     }
 
     /**
