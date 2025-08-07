@@ -14,7 +14,8 @@ import com.erebelo.graphdemo.model.Node;
 import java.util.List;
 
 /**
- * Service for retrieving and manipulating edges in the graph.  Within the graph, two nodes can contain multiple, parallel edges.
+ * Service for retrieving and manipulating edges in the graph.  Within the graph,
+ * two nodes can contain multiple, parallel edges.
  */
 public interface EdgeService extends IdentifiableBase<Edge> {
 

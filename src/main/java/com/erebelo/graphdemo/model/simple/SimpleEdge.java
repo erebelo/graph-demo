@@ -7,11 +7,10 @@
 package com.erebelo.graphdemo.model.simple;
 
 import com.erebelo.graphdemo.common.version.Locator;
-import com.erebelo.graphdemo.model.Component;
+import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
-import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.Type;
 
 import java.time.Instant;
@@ -22,12 +21,12 @@ import java.util.Set;
 public record SimpleEdge(
         Locator locator,
         Type type,
-        Reference<Node> source,
-        Reference<Node> target,
+        Node source,
+        Node target,
         Data data,
         Instant created,
         Optional<Instant> expired,
-        Set<Reference<Component>> components)
+        Set<NanoId> components)
         implements Edge {
 
     /**
@@ -35,8 +34,8 @@ public record SimpleEdge(
      */
     public SimpleEdge(
             final Locator locator,
-            final Reference<Node> source,
-            final Reference<Node> target,
+            final Node source,
+            final Node target,
             final Data data,
             final Instant created,
             final Optional<Instant> expired) {

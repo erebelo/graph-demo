@@ -1,7 +1,5 @@
 package com.erebelo.graphdemo.access;
 
-import com.erebelo.graphdemo.common.log.Log;
-
 //final class Access {
 //
 //    public String greet(String name) {

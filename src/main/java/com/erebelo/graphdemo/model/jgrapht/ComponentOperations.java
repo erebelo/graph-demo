@@ -14,7 +14,6 @@ import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Element;
 import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.Operations;
-import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.simple.SimpleComponent;
 import org.jgrapht.Graph;
 import org.springframework.stereotype.Service;
@@ -26,27 +25,29 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
 /**
- * Operations for managing components in a JGraphT
- * <p>
- * This implementation uses a hybrid approach: - Component metadata (versions, data, timestamps) is stored in componentVersions map - Component
- * membership is tracked separately in elementToComponents map - The actual graph elements remain unchanged to maintain graph integrity
- * <p>
- * Note: Due to the immutable nature of SimpleNode/SimpleEdge records and their inclusion of components in equals/hashCode, we cannot modify
- * Element#components() without breaking graph lookups. Instead, we track membership externally.
+ * Operations for managing components in a JGraphT graph.
+ *
+ * This implementation uses a hybrid approach:
+ * - Component metadata (versions, data, timestamps) is stored in componentVersions map
+ * - Component membership is tracked separately in elementToComponents map
+ * - The actual graph elements remain unchanged to maintain graph integrity
+ *
+ * Note: Due to the immutable nature of SimpleNode/SimpleEdge records and their
+ * inclusion of components in equals/hashCode, we cannot modify Element#components()
+ * without breaking graph lookups. Instead, we track membership externally.
  */
 @Service
 public class ComponentOperations implements Operations<Component> {
 
-    private final Graph<Reference<Node>, Reference<Edge>> graph;
+    private final Graph<Node, Edge> graph;
     private final Map<NanoId, List<Component>> componentVersions;
     private final Map<Element, Set<NanoId>> elementToComponents;
 
-    public ComponentOperations(final Graph<Reference<Node>, Reference<Edge>> graph) {
+    public ComponentOperations(final Graph<Node, Edge> graph) {
 
         this.graph = graph;
         componentVersions = new HashMap<>();
@@ -66,11 +67,9 @@ public class ComponentOperations implements Operations<Component> {
                 .computeIfAbsent(element, k -> new HashSet<>())
                 .add(locator.id()));
 
-        // Create component with the original elements as loaded references
-        final List<Reference<Element>> elementRefs = elements.stream()
-                .map(e -> (Reference<Element>) new Reference.Loaded<>(e))
-                .toList();
-        final var component = new SimpleComponent(locator, elementRefs, data, timestamp, Optional.empty());
+        // Create component with the original elements
+        final var component =
+                new SimpleComponent(locator, new ArrayList<>(elements), data, timestamp, Optional.empty());
 
         // Store component version
         componentVersions.computeIfAbsent(locator.id(), k -> new ArrayList<>()).add(component);
@@ -105,11 +104,9 @@ public class ComponentOperations implements Operations<Component> {
                 .computeIfAbsent(element, k -> new HashSet<>())
                 .add(id));
 
-        // Create component with the original elements as loaded references
-        final List<Reference<Element>> newElementRefs = elements.stream()
-                .map(e -> (Reference<Element>) new Reference.Loaded<>(e))
-                .toList();
-        final var newComponent = new SimpleComponent(incremented, newElementRefs, data, timestamp, Optional.empty());
+        // Create component with the original elements
+        final var newComponent =
+                new SimpleComponent(incremented, new ArrayList<>(elements), data, timestamp, Optional.empty());
 
         // Store new version
         componentVersions.get(id).add(newComponent);
@@ -145,19 +142,19 @@ public class ComponentOperations implements Operations<Component> {
     }
 
     @Override
-    public List<Component> findVersions(final NanoId id) {
+    public List<Component> findAllVersions(final NanoId id) {
 
         final var versions = componentVersions.get(id);
         return (versions != null) ? new ArrayList<>(versions) : List.of();
     }
 
     @Override
-    public Component find(final Locator locator) {
+    public List<Component> allActive() {
+
         return componentVersions.values().stream()
                 .flatMap(List::stream)
-                .filter(component -> component.locator().equals(locator))
-                .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Component not found: " + locator));
+                .filter(c -> c.expired().isEmpty())
+                .toList();
     }
 
     @Override

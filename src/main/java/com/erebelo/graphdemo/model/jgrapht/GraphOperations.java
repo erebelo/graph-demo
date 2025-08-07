@@ -8,19 +8,12 @@ package com.erebelo.graphdemo.model.jgrapht;
 
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
-import com.erebelo.graphdemo.model.Path;
-import com.erebelo.graphdemo.model.Reference;
 import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
-import org.jgrapht.alg.connectivity.ConnectivityInspector;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.event.GraphListener;
 import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedMultigraph;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * Operations that apply to the entire graph.
@@ -31,49 +24,16 @@ public class GraphOperations {
     /**
      * JGraphT delegated in memory graph.
      */
-    private final Graph<Reference<Node>, Reference<Edge>> graph;
+    private final Graph<Node, Edge> graph;
 
     /**
      * Creates graph operations that will forward any events on to the specified listener.
      */
-    public GraphOperations(final GraphListener<Reference<Node>, Reference<Edge>> listener) {
+    public GraphOperations(final GraphListener<Node, Edge> listener) {
 
-        final Graph<Reference<Node>, Reference<Edge>> base = new DirectedMultigraph<>(null, null, false);
-        final ListenableGraph<Reference<Node>, Reference<Edge>> wrapper = new DefaultListenableGraph<>(base);
+        final Graph<Node, Edge> base = new DirectedMultigraph<>(null, null, false);
+        final ListenableGraph<Node, Edge> wrapper = new DefaultListenableGraph<>(base);
         wrapper.addGraphListener(listener);
         graph = wrapper;
-    }
-
-    /**
-     * Finds shortest path between two nodes.
-     */
-    public Path shortestPath(final Reference<Node> source, final Reference<Node> target) {
-
-        final var pathAlgorithm = new DijkstraShortestPath<>(graph);
-        final var jgraphtPath = pathAlgorithm.getPath(source, target);
-        if (jgraphtPath == null) {
-            return new Path(List.of());
-        }
-        return OperationsHelper.toPath(jgraphtPath);
-    }
-
-    /**
-     * Checks if path exists between two nodes.
-     */
-    public boolean pathExists(final Reference<Node> source, final Reference<Node> target) {
-
-        final var inspector = new ConnectivityInspector<>(graph);
-        return inspector.pathExists(source, target);
-    }
-
-    public List<Path> allPaths(final Reference<Node> source, final Reference<Node> target) {
-
-        final var allPathsAlgorithm = new AllDirectedPaths<>(graph);
-        final var maxPathLength = graph.vertexSet().size();
-        final var jgraphtPaths = allPathsAlgorithm.getAllPaths(source, target, true, maxPathLength);
-        return jgraphtPaths.stream()
-                .map(OperationsHelper::toPath)
-                .filter(path -> !OperationsHelper.containsCycle(path))
-                .toList();
     }
 }

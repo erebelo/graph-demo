@@ -7,9 +7,10 @@
 package com.erebelo.graphdemo.model;
 
 /**
- * Encapsulates a session-based graph that can have queries and operations performed. Implementations must be thread-safe.
+ * Encapsulates a session-based graph that can have queries and operations performed.
+ * Implementations must be thread-safe.
  */
 public interface Graph extends AutoCloseable {
 
-    // CALUDE Please recommend what methods make sense here for Graph.  Do not define them, only make suggestions.
+    // FIXME Need to determine what operations should be here
 }

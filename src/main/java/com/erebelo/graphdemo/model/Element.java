@@ -6,6 +6,7 @@
 package com.erebelo.graphdemo.model;
 
 import com.erebelo.graphdemo.common.annotation.Stable;
+import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.common.version.Versioned;
 
 import java.util.Set;
@@ -17,5 +18,5 @@ public interface Element extends Versioned {
 
     Data data();
 
-    Set<Reference<Component>> components();
+    Set<NanoId> components();
 }

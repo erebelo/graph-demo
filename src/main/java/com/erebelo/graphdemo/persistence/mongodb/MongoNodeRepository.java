@@ -9,10 +9,7 @@ package com.erebelo.graphdemo.persistence.mongodb;
 import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.version.Locator;
 import com.erebelo.graphdemo.common.version.NanoId;
-import com.erebelo.graphdemo.model.Component;
-import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
-import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.serde.JsonSerde;
 import com.erebelo.graphdemo.model.serde.Serde;
 import com.erebelo.graphdemo.model.simple.SimpleNode;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -48,14 +44,10 @@ import static com.mongodb.client.model.Sorts.descending;
 public class MongoNodeRepository implements ExtendedVersionedRepository<Node> {
 
     private final MongoCollection<Document> collection;
-    private final MongoCollection<Document> edgesCollection;
-    private final MongoCollection<Document> componentElementsCollection;
     private final Serde<String> serde = new JsonSerde();
 
     public MongoNodeRepository(final MongoDatabase database) {
         collection = database.getCollection("nodes");
-        edgesCollection = database.getCollection("edges");
-        componentElementsCollection = database.getCollection("component_elements");
     }
 
     @Override
@@ -136,50 +128,14 @@ public class MongoNodeRepository implements ExtendedVersionedRepository<Node> {
             final var data = serde.deserialize(versionedData.serializedData());
             final var type = new SimpleType(versionedData.type());
 
-            // Find edges where this node is the source or target
-            final var nodeId = versionedData.locator().id().id();
-            final var edgeRefs = new ArrayList<Reference<Edge>>();
-
-            // Find outgoing edges (where this node is the source)
-            final var outgoingEdges = edgesCollection.find(and(eq("sourceId", nodeId), not(exists("expired"))));
-
-            for (final var edgeDoc : outgoingEdges) {
-                final var edgeId = new NanoId(edgeDoc.getString("id"));
-                final var edgeVersion = edgeDoc.getInteger("versionId");
-                final var edgeLocator = new Locator(edgeId, edgeVersion);
-                edgeRefs.add(new Reference.Unloaded<>(edgeLocator, Edge.class));
-            }
-
-            // Find incoming edges (where this node is the target)
-            final var incomingEdges = edgesCollection.find(and(eq("targetId", nodeId), not(exists("expired"))));
-
-            for (final var edgeDoc : incomingEdges) {
-                final var edgeId = new NanoId(edgeDoc.getString("id"));
-                final var edgeVersion = edgeDoc.getInteger("versionId");
-                final var edgeLocator = new Locator(edgeId, edgeVersion);
-                edgeRefs.add(new Reference.Unloaded<>(edgeLocator, Edge.class));
-            }
-
-            // Find components containing this node
-            final var componentRefs = new HashSet<Reference<Component>>();
-            final var componentDocs =
-                    componentElementsCollection.find(and(eq("elementId", nodeId), eq("elementType", "node")));
-
-            for (final var compDoc : componentDocs) {
-                final var componentId = new NanoId(compDoc.getString("componentId"));
-                final var componentVersion = compDoc.getInteger("componentVersionId");
-                final var componentLocator = new Locator(componentId, componentVersion);
-                componentRefs.add(new Reference.Unloaded<>(componentLocator, Component.class));
-            }
-
             return new SimpleNode(
                     versionedData.locator(),
                     type,
-                    edgeRefs,
+                    List.of(),
                     data,
                     versionedData.created(),
                     versionedData.expired(),
-                    componentRefs);
+                    new HashSet<>());
         });
     }
 

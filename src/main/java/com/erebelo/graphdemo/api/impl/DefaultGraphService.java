@@ -9,7 +9,6 @@ package com.erebelo.graphdemo.api.impl;
 import com.erebelo.graphdemo.api.GraphService;
 import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.model.Path;
-import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.jgrapht.GraphOperations;
 import com.erebelo.graphdemo.model.jgrapht.NodeOperations;
 import com.erebelo.graphdemo.persistence.GraphRepository;
@@ -27,6 +26,8 @@ public final class DefaultGraphService implements GraphService {
     private final GraphRepository repository;
     private final GraphOperations graphOperations;
     private final NodeOperations nodeOperations;
+    // FIXME: PathOperations should be injected once SimpleMutableGraph is implemented
+    // private final PathOperations pathOperations;
 
     public DefaultGraphService(
             final GraphRepository repository,
@@ -49,7 +50,9 @@ public final class DefaultGraphService implements GraphService {
                 .findActive(targetNodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Target node not found: " + targetNodeId));
 
-        return graphOperations.pathExists(new Reference.Loaded<>(sourceNode), new Reference.Loaded<>(targetNode));
+        // FIXME: Use pathOperations once it's properly injected
+        throw new UnsupportedOperationException("PathOperations not yet integrated");
+        // return pathOperations.pathExists(sourceNode, targetNode);
     }
 
     @Override
@@ -57,7 +60,7 @@ public final class DefaultGraphService implements GraphService {
     public List<Path> getActiveConnected() {
 
         // Get all active nodes
-        final var activeNodes = nodeOperations.activeNodes();
+        final var activeNodes = nodeOperations.allActive();
 
         // Find all connected paths among active nodes
         final var connectedPaths = new java.util.ArrayList<Path>();
@@ -67,10 +70,11 @@ public final class DefaultGraphService implements GraphService {
                 final var sourceNode = activeNodes.get(i);
                 final var targetNode = activeNodes.get(j);
 
-                if (graphOperations.pathExists(
-                        new Reference.Loaded<>(sourceNode), new Reference.Loaded<>(targetNode))) {
-                    final var paths = graphOperations.allPaths(
-                            new Reference.Loaded<>(sourceNode), new Reference.Loaded<>(targetNode));
+                // FIXME: Use pathOperations once it's properly injected
+                // if (pathOperations.pathExists(sourceNode, targetNode)) {
+                //     final var paths = pathOperations.allPaths(sourceNode, targetNode);
+                if (false) {
+                    final var paths = List.<Path>of();
                     connectedPaths.addAll(paths);
                 }
             }
@@ -90,6 +94,8 @@ public final class DefaultGraphService implements GraphService {
                 .findActive(targetNodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Target node not found: " + targetNodeId));
 
-        return graphOperations.shortestPath(new Reference.Loaded<>(sourceNode), new Reference.Loaded<>(targetNode));
+        // FIXME: Use pathOperations once it's properly injected
+        throw new UnsupportedOperationException("PathOperations not yet integrated");
+        // return pathOperations.shortestPath(sourceNode, targetNode);
     }
 }

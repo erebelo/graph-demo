@@ -19,42 +19,43 @@ import org.springframework.stereotype.Repository;
 @Repository("mongoGraphRepository")
 public class MongoGraphRepository implements GraphRepository {
 
-        private final MongoNodeRepository nodes;
-        private final MongoEdgeRepository edges;
-        private final MongoComponentRepository components;
-        private final MongoGraphOperations graphOperations;
+    private final MongoNodeRepository nodes;
+    private final MongoEdgeRepository edges;
+    private final MongoComponentRepository components;
+    private final MongoGraphOperations graphOperations;
 
-        public MongoGraphRepository(MongoNodeRepository nodes, MongoEdgeRepository edges, MongoComponentRepository components,
-                MongoGraphOperations graphOperations) {
-                this.nodes = nodes;
-                this.edges = edges;
-                this.components = components;
-                this.graphOperations = graphOperations;
-        }
+    public MongoGraphRepository(MongoNodeRepository nodes, MongoEdgeRepository edges, MongoComponentRepository components,
+            MongoGraphOperations graphOperations) {
+        this.nodes = nodes;
+        this.edges = edges;
+        this.components = components;
+        this.graphOperations = graphOperations;
+    }
 
-        public static MongoGraphRepository create(final MongoSession session) {
-                final var nodeRepository = new MongoNodeRepository(session.database());
-                final var edgeRepository = new MongoEdgeRepository(session.database(), nodeRepository);
-                final var graphOperations = new MongoGraphOperations(session.database(), nodeRepository, edgeRepository);
-                return new MongoGraphRepository(
-                        nodeRepository,
-                        edgeRepository,
-                        new MongoComponentRepository(session.database(), nodeRepository, edgeRepository),
-                        graphOperations);
-        }
+    public static MongoGraphRepository create(final MongoSession session) {
 
-        @Override
-        public ExtendedVersionedRepository<Node> nodes() {
-                return nodes;
-        }
+        final var nodeRepository = new MongoNodeRepository(session.database());
+        final var edgeRepository = new MongoEdgeRepository(session.database(), nodeRepository);
+        final var graphOperations = new MongoGraphOperations(session.database(), nodeRepository, edgeRepository);
+        return new MongoGraphRepository(
+                nodeRepository,
+                edgeRepository,
+                new MongoComponentRepository(session.database(), nodeRepository, edgeRepository),
+                graphOperations);
+    }
 
-        @Override
-        public ExtendedVersionedRepository<Edge> edges() {
-                return edges;
-        }
+    @Override
+    public ExtendedVersionedRepository<Node> nodes() {
+        return nodes;
+    }
 
-        @Override
-        public ExtendedVersionedRepository<Component> components() {
-                return components;
-        }
+    @Override
+    public ExtendedVersionedRepository<Edge> edges() {
+        return edges;
+    }
+
+    @Override
+    public ExtendedVersionedRepository<Component> components() {
+        return components;
+    }
 }

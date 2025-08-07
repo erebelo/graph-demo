@@ -8,16 +8,16 @@ package com.erebelo.graphdemo.persistence;
 import com.erebelo.graphdemo.common.annotation.Stable;
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
-import com.erebelo.graphdemo.model.Reference;
 import org.jgrapht.event.GraphListener;
 
 /**
- * Repository that listens to graph events, queueing up persistence operations to apply once the flush() operation is called.  These persistence
- * operations should be lazily evaluated and will be coerced on flush().  Callers must handle invoking rollback() on error or commit() on final
- * success.
+ * Repository that listens to graph events, queueing up persistence operations to
+ * apply once the flush() operation is called.  These persistence operations should
+ * be lazily evaluated and will be coerced on flush().  Callers must handle invoking
+ * rollback() on error or commit() on final success.
  */
 @Stable
-public interface GraphListenerRepository extends GraphListener<Reference<Node>, Reference<Edge>> {
+public interface GraphListenerRepository extends GraphListener<Node, Edge> {
 
     /**
      * Execute the queued operations to the persistent store.

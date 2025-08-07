@@ -11,14 +11,15 @@ import com.erebelo.graphdemo.common.version.Versioned;
 import java.util.List;
 
 /**
- * Represents a versioned, maximally connected subgraph containing nodes and edges. Implementations must be immutable and thread-safe.
+ * Represents a versioned, maximally connected subgraph containing nodes and edges.
+ * Implementations must be immutable and thread-safe.
  */
 public interface Component extends Versioned {
 
     /**
      * Returns the list of elements contained in this component.
      */
-    List<Reference<Element>> elements();
+    List<Element> elements();
 
     /**
      * Returns the data associated with this component.

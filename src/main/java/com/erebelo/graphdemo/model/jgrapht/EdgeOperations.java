@@ -13,16 +13,12 @@ import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.Operations;
-import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.simple.SimpleEdge;
 import org.jgrapht.Graph;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,43 +28,27 @@ import java.util.Set;
 @Service
 public class EdgeOperations implements Operations<Edge> {
 
-    private final Graph<Reference<Node>, Reference<Edge>> graph;
+    private final Graph<Node, Edge> graph;
 
-    public EdgeOperations(final Graph<Reference<Node>, Reference<Edge>> graph) {
+    public EdgeOperations(final Graph<Node, Edge> graph) {
 
         this.graph = graph;
     }
 
     public Set<Edge> outgoingEdgesOf(final Node node) {
-        final Reference<Node> nodeRef = new Reference.Loaded<>(node);
-        final Set<Edge> edges = new HashSet<>();
-        for (Reference<Edge> ref : graph.outgoingEdgesOf(nodeRef)) {
-            if (ref instanceof Reference.Loaded<Edge> loaded) {
-                edges.add(loaded.value());
-            }
-        }
-        return edges;
+
+        return graph.outgoingEdgesOf(node);
     }
 
     public Set<Edge> incomingEdgesOf(final Node node) {
-        final Reference<Node> nodeRef = new Reference.Loaded<>(node);
-        final Set<Edge> edges = new HashSet<>();
-        for (Reference<Edge> ref : graph.incomingEdgesOf(nodeRef)) {
-            if (ref instanceof Reference.Loaded<Edge> loaded) {
-                edges.add(loaded.value());
-            }
-        }
-        return edges;
+
+        return graph.incomingEdgesOf(node);
     }
 
     public Edge add(final Node source, final Node target, final Data data, final Instant timestamp) {
         final var locator = Locator.generate();
-        // Create edge with loaded source and target references
-        final Reference<Node> sourceRef = new Reference.Loaded<>(source);
-        final Reference<Node> targetRef = new Reference.Loaded<>(target);
-        final var edge = new SimpleEdge(locator, sourceRef, targetRef, data, timestamp, Optional.empty());
-        final Reference<Edge> edgeRef = new Reference.Loaded<>(edge);
-        graph.addEdge(sourceRef, targetRef, edgeRef);
+        final var edge = new SimpleEdge(locator, source, target, data, timestamp, Optional.empty());
+        graph.addEdge(edge.source(), edge.target(), edge);
         return edge;
     }
 
@@ -78,56 +58,32 @@ public class EdgeOperations implements Operations<Edge> {
         final var incremented = expired.locator().increment();
         final var newEdge =
                 new SimpleEdge(incremented, expired.source(), expired.target(), data, timestamp, Optional.empty());
-        final Reference<Edge> newEdgeRef = new Reference.Loaded<>(newEdge);
-        graph.addEdge(expired.source(), expired.target(), newEdgeRef);
+        graph.addEdge(newEdge.source(), newEdge.target(), newEdge);
         return newEdge;
     }
 
     @Override
     public Optional<Edge> findActive(final NanoId id) {
-        // Extract edges from loaded references
-        final List<Edge> edges = new ArrayList<>();
-        for (Reference<Edge> ref : graph.edgeSet()) {
-            if (ref instanceof Reference.Loaded<Edge> loaded) {
-                edges.add(loaded.value());
-            }
-        }
-        return Versions.findActive(id, edges);
+
+        return Versions.findActive(id, graph.edgeSet());
     }
 
     @Override
     public Optional<Edge> findAt(final NanoId id, final Instant timestamp) {
-        // Extract edges from loaded references
-        final List<Edge> edges = new ArrayList<>();
-        for (Reference<Edge> ref : graph.edgeSet()) {
-            if (ref instanceof Reference.Loaded<Edge> loaded) {
-                edges.add(loaded.value());
-            }
-        }
-        return Versions.findAt(id, timestamp, edges);
+
+        return Versions.findAt(id, timestamp, graph.edgeSet());
     }
 
     @Override
-    public List<Edge> findVersions(final NanoId id) {
-        // Extract edges from loaded references
-        final List<Edge> edges = new ArrayList<>();
-        for (Reference<Edge> ref : graph.edgeSet()) {
-            if (ref instanceof Reference.Loaded<Edge> loaded) {
-                edges.add(loaded.value());
-            }
-        }
-        return Versions.findAllVersions(id, edges);
+    public List<Edge> findAllVersions(final NanoId id) {
+
+        return Versions.findAllVersions(id, graph.edgeSet());
     }
 
     @Override
-    public Edge find(final Locator locator) {
-        for (Reference<Edge> ref : graph.edgeSet()) {
-            if (ref instanceof Reference.Loaded<Edge> loaded
-                    && loaded.value().locator().equals(locator)) {
-                return loaded.value();
-            }
-        }
-        throw new NoSuchElementException("Edge not found: " + locator);
+    public List<Edge> allActive() {
+
+        return Versions.allActive(graph.edgeSet());
     }
 
     @Override
@@ -136,24 +92,8 @@ public class EdgeOperations implements Operations<Edge> {
         final var edge = OperationsHelper.validateForExpiry(findActive(id), id, "Edge");
         final var expiredEdge = new SimpleEdge(
                 edge.locator(), edge.source(), edge.target(), edge.data(), edge.created(), Optional.of(timestamp));
-
-        // Find and remove the old edge reference
-        Reference<Edge> oldEdgeRef = null;
-        for (Reference<Edge> ref : graph.edgeSet()) {
-            if (ref instanceof Reference.Loaded<Edge> loaded && loaded.value().equals(edge)) {
-                oldEdgeRef = ref;
-                break;
-            }
-        }
-
-        if (oldEdgeRef != null) {
-            graph.removeEdge(oldEdgeRef);
-        }
-
-        // Add the expired edge
-        final Reference<Edge> expiredEdgeRef = new Reference.Loaded<>(expiredEdge);
-        graph.addEdge(edge.source(), edge.target(), expiredEdgeRef);
-
+        graph.removeEdge(edge);
+        graph.addEdge(edge.source(), edge.target(), expiredEdge);
         return expiredEdge;
     }
 
@@ -161,29 +101,19 @@ public class EdgeOperations implements Operations<Edge> {
      * Gets all active edges originating from the specified node.
      */
     public List<Edge> getEdgesFrom(final Node node) {
-        return outgoingEdgesOf(node).stream()
+
+        return graph.outgoingEdgesOf(node).stream()
                 .filter(edge -> edge.expired().isEmpty())
                 .toList();
     }
 
     /**
-     * Gets all active edges terminating at the specified node.
+     * Gets all active edges targeting the specified node.
      */
     public List<Edge> getEdgesTo(final Node node) {
-        return incomingEdgesOf(node).stream()
+
+        return graph.incomingEdgesOf(node).stream()
                 .filter(edge -> edge.expired().isEmpty())
                 .toList();
-    }
-
-    /**
-     * Gets all active edges (both incoming and outgoing) for the specified node.
-     */
-    public List<Edge> getEdgesFor(final Node node) {
-        final var outgoing = getEdgesFrom(node);
-        final var incoming = getEdgesTo(node);
-        final var allEdges = new ArrayList<Edge>(outgoing.size() + incoming.size());
-        allEdges.addAll(outgoing);
-        allEdges.addAll(incoming);
-        return allEdges;
     }
 }

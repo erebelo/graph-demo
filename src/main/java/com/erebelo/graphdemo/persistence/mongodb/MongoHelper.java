@@ -29,7 +29,8 @@ final class MongoHelper {
     }
 
     /**
-     * Formats an Instant to ISO-8601 string with millisecond precision. MongoDB schema expects timestamps with up to 3 decimal places.
+     * Formats an Instant to ISO-8601 string with millisecond precision.
+     * MongoDB schema expects timestamps with up to 3 decimal places.
      */
     private static String formatTimestamp(final Instant instant) {
         // Truncate to milliseconds to match MongoDB schema validation

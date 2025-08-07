@@ -9,10 +9,7 @@ package com.erebelo.graphdemo.persistence.mongodb;
 import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.version.Locator;
 import com.erebelo.graphdemo.common.version.NanoId;
-import com.erebelo.graphdemo.model.Component;
 import com.erebelo.graphdemo.model.Edge;
-import com.erebelo.graphdemo.model.Node;
-import com.erebelo.graphdemo.model.Reference;
 import com.erebelo.graphdemo.model.serde.JsonSerde;
 import com.erebelo.graphdemo.model.serde.Serde;
 import com.erebelo.graphdemo.model.simple.SimpleEdge;
@@ -47,29 +44,23 @@ import static com.mongodb.client.model.Sorts.descending;
 public class MongoEdgeRepository implements ExtendedVersionedRepository<Edge> {
 
     private final MongoCollection<Document> collection;
-    private final MongoCollection<Document> componentElementsCollection;
     private final Serde<String> serde = new JsonSerde();
     private final MongoNodeRepository nodeRepository;
 
     public MongoEdgeRepository(final MongoDatabase database, final MongoNodeRepository nodeRepository) {
         collection = database.getCollection("edges");
-        componentElementsCollection = database.getCollection("component_elements");
         this.nodeRepository = nodeRepository;
     }
 
     @Override
     public Edge save(final Edge edge) {
         return Io.withReturn(() -> {
-            // Extract locators from source and target references
-            final var sourceLocator = edge.source().locator();
-            final var targetLocator = edge.target().locator();
-
             final var document = MongoHelper.createBaseDocument(
                             edge.locator(), edge.type().code(), edge.created(), serde.serialize(edge.data()))
-                    .append("sourceId", sourceLocator.id().id())
-                    .append("sourceVersionId", sourceLocator.version())
-                    .append("targetId", targetLocator.id().id())
-                    .append("targetVersionId", targetLocator.version());
+                    .append("sourceId", edge.source().locator().id().id())
+                    .append("sourceVersionId", edge.source().locator().version())
+                    .append("targetId", edge.target().locator().id().id())
+                    .append("targetVersionId", edge.target().locator().version());
             MongoHelper.addExpiryToDocument(document, edge.expired());
 
             collection.insertOne(document);
@@ -151,40 +142,23 @@ public class MongoEdgeRepository implements ExtendedVersionedRepository<Edge> {
             final var sourceLocator = new Locator(sourceId, sourceVersionId);
             final var targetLocator = new Locator(targetId, targetVersionId);
 
-            final var sourceNode = nodeRepository
+            final var source = nodeRepository
                     .find(sourceLocator)
                     .orElseThrow(() -> new IllegalStateException("Source node not found: " + sourceLocator));
-            final var targetNode = nodeRepository
+            final var target = nodeRepository
                     .find(targetLocator)
                     .orElseThrow(() -> new IllegalStateException("Target node not found: " + targetLocator));
-
-            // Create loaded references for source and target
-            final var sourceRef = new Reference.Loaded<Node>(sourceNode);
-            final var targetRef = new Reference.Loaded<Node>(targetNode);
-
-            // Find components containing this edge
-            final var componentRefs = new HashSet<Reference<Component>>();
-            final var edgeId = versionedData.locator().id().id();
-            final var componentDocs =
-                    componentElementsCollection.find(and(eq("elementId", edgeId), eq("elementType", "edge")));
-
-            for (final var compDoc : componentDocs) {
-                final var componentId = new NanoId(compDoc.getString("componentId"));
-                final var componentVersion = compDoc.getInteger("componentVersionId");
-                final var componentLocator = new Locator(componentId, componentVersion);
-                componentRefs.add(new Reference.Unloaded<>(componentLocator, Component.class));
-            }
 
             final var type = new SimpleType(versionedData.type());
             return new SimpleEdge(
                     versionedData.locator(),
                     type,
-                    sourceRef,
-                    targetRef,
+                    source,
+                    target,
                     data,
                     versionedData.created(),
                     versionedData.expired(),
-                    componentRefs);
+                    new HashSet<>());
         });
     }
 

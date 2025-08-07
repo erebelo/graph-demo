@@ -42,7 +42,8 @@ public class MongoGraphOperations {
     }
 
     /**
-     * Finds all nodes reachable from a starting node using $graphLookup. This traverses outgoing edges to find connected nodes.
+     * Finds all nodes reachable from a starting node using $graphLookup.
+     * This traverses outgoing edges to find connected nodes.
      */
     public List<Node> findReachableNodes(final NanoId startNodeId, final int maxDepth) {
         final var pipeline = Arrays.asList(

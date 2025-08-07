@@ -9,8 +9,8 @@ package com.erebelo.graphdemo.model.serde;
 import com.erebelo.graphdemo.model.Data;
 
 /**
- * Interface to allow for Data (containing a Java POJO) to be serialized and deserialized (serde) to and from a given format (specified by type
- * parameter S).
+ * Interface to allow for Data (containing a Java POJO) to be serialized and deserialized (serde) to and from
+ * a given format (specified by type parameter S).
  */
 public interface Serde<S> {
 
