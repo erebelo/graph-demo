@@ -8,7 +8,6 @@ package com.erebelo.graphdemo.common.fp;
 
 import com.erebelo.graphdemo.common.error.IoException;
 import com.erebelo.graphdemo.common.error.UnexpectedException;
-
 import java.util.function.Function;
 
 /**
@@ -18,10 +17,13 @@ import java.util.function.Function;
 public interface Fn0<T> {
 
     /**
-     * Execute the specified supplier that can throw an exception. If an exception is thrown, it will be converted to an unchecked exception.
+     * Execute the specified supplier that can throw an exception. If an exception
+     * is thrown, it will be converted to an unchecked exception.
      *
-     * @param fx  Supplier function to execute
-     * @param <T> Type parameter of consumer arguent
+     * @param fx
+     *            Supplier function to execute
+     * @param <T>
+     *            Type parameter of consumer arguent
      * @return T Value returned
      */
     static <T> T asTry(final Fn0<T> fx) {
@@ -30,10 +32,13 @@ public interface Fn0<T> {
     }
 
     /**
-     * Execute the specified supplier that can throw an exception. If an exception is thrown, it will be converted to an unchecked exception.
+     * Execute the specified supplier that can throw an exception. If an exception
+     * is thrown, it will be converted to an unchecked exception.
      *
-     * @param fx  Supplier function to execute
-     * @param <T> Type parameter of consumer arguent
+     * @param fx
+     *            Supplier function to execute
+     * @param <T>
+     *            Type parameter of consumer arguent
      * @return T Value returned
      */
     static <T> T asIo(final Fn0<T> fx) {

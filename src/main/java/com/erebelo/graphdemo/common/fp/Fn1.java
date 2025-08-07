@@ -8,7 +8,6 @@ package com.erebelo.graphdemo.common.fp;
 
 import com.erebelo.graphdemo.common.error.IoException;
 import com.erebelo.graphdemo.common.error.UnexpectedException;
-
 import java.util.function.Function;
 
 /**
@@ -40,11 +39,12 @@ public interface Fn1<T, R> {
     R apply(T t) throws Exception;
 
     /**
-     * Executes the function and throws the wraps any exception with the one specified.
+     * Executes the function and throws the wraps any exception with the one
+     * specified.
      */
     @SuppressWarnings("ProhibitedExceptionThrown")
-    private static <T, R> Function<T, R> apply(
-            final Fn1<? super T, ? extends R> fx, final Function<Exception, RuntimeException> ex) {
+    private static <T, R> Function<T, R> apply(final Fn1<? super T, ? extends R> fx,
+            final Function<Exception, RuntimeException> ex) {
 
         return t -> {
             try {

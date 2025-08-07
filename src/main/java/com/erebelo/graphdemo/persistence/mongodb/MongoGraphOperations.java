@@ -13,14 +13,13 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.GraphLookupOptions;
-import org.bson.Document;
-import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.bson.Document;
+import org.springframework.stereotype.Repository;
 
 /**
  * MongoDB-specific graph operations using native aggregation pipeline features.
@@ -32,9 +31,7 @@ public class MongoGraphOperations {
     private final MongoNodeRepository nodeRepository;
     private final MongoEdgeRepository edgeRepository;
 
-    public MongoGraphOperations(
-            final MongoDatabase database,
-            final MongoNodeRepository nodeRepository,
+    public MongoGraphOperations(final MongoDatabase database, final MongoNodeRepository nodeRepository,
             final MongoEdgeRepository edgeRepository) {
         this.database = database;
         this.nodeRepository = nodeRepository;
@@ -42,38 +39,24 @@ public class MongoGraphOperations {
     }
 
     /**
-     * Finds all nodes reachable from a starting node using $graphLookup.
-     * This traverses outgoing edges to find connected nodes.
+     * Finds all nodes reachable from a starting node using $graphLookup. This
+     * traverses outgoing edges to find connected nodes.
      */
     public List<Node> findReachableNodes(final NanoId startNodeId, final int maxDepth) {
         final var pipeline = Arrays.asList(
                 // Start with the specific node
-                Aggregates.match(
-                        Filters.and(Filters.eq("id", startNodeId.id()), Filters.not(Filters.exists("expired")))),
+                Aggregates
+                        .match(Filters.and(Filters.eq("id", startNodeId.id()), Filters.not(Filters.exists("expired")))),
                 // Use $graphLookup to traverse the graph
-                Aggregates.graphLookup(
-                        "edges",
-                        "$id",
-                        "targetId",
-                        "sourceId",
-                        "reachableEdges",
-                        new GraphLookupOptions()
-                                .maxDepth(maxDepth - 1)
+                Aggregates.graphLookup("edges", "$id", "targetId", "sourceId", "reachableEdges",
+                        new GraphLookupOptions().maxDepth(maxDepth - 1)
                                 .restrictSearchWithMatch(Filters.not(Filters.exists("expired")))),
                 // Extract unique target node IDs from the edges
-                Aggregates.project(new Document()
-                        .append(
-                                "nodeIds",
-                                new Document(
-                                        "$setUnion",
-                                        Arrays.asList(
-                                                Arrays.asList("$id"),
-                                                new Document(
-                                                        "$map",
-                                                        new Document()
-                                                                .append("input", "$reachableEdges")
-                                                                .append("as", "edge")
-                                                                .append("in", "$$edge.targetId")))))));
+                Aggregates.project(new Document().append("nodeIds",
+                        new Document("$setUnion",
+                                Arrays.asList(Arrays.asList("$id"),
+                                        new Document("$map", new Document().append("input", "$reachableEdges")
+                                                .append("as", "edge").append("in", "$$edge.targetId")))))));
 
         final var result = database.getCollection("nodes").aggregate(pipeline).first();
         if (result == null) {
@@ -94,8 +77,7 @@ public class MongoGraphOperations {
     public List<Edge> findIncomingEdges(final NanoId nodeId) {
         final var pipeline = Arrays.asList(
                 Aggregates.match(Filters.and(Filters.eq("id", nodeId.id()), Filters.not(Filters.exists("expired")))),
-                Aggregates.lookup("edges", "id", "targetId", "incomingEdges"),
-                Aggregates.unwind("$incomingEdges"),
+                Aggregates.lookup("edges", "id", "targetId", "incomingEdges"), Aggregates.unwind("$incomingEdges"),
                 Aggregates.match(Filters.not(Filters.exists("incomingEdges.expired"))),
                 Aggregates.replaceRoot("$incomingEdges"));
 
@@ -114,8 +96,7 @@ public class MongoGraphOperations {
     public List<Edge> findOutgoingEdges(final NanoId nodeId) {
         final var pipeline = Arrays.asList(
                 Aggregates.match(Filters.and(Filters.eq("id", nodeId.id()), Filters.not(Filters.exists("expired")))),
-                Aggregates.lookup("edges", "id", "sourceId", "outgoingEdges"),
-                Aggregates.unwind("$outgoingEdges"),
+                Aggregates.lookup("edges", "id", "sourceId", "outgoingEdges"), Aggregates.unwind("$outgoingEdges"),
                 Aggregates.match(Filters.not(Filters.exists("outgoingEdges.expired"))),
                 Aggregates.replaceRoot("$outgoingEdges"));
 
@@ -155,32 +136,19 @@ public class MongoGraphOperations {
     }
 
     private Document createNeighborProjection() {
-        return new Document()
-                .append(
-                        "neighborIds",
-                        new Document(
-                                "$setUnion",
-                                Arrays.asList(
-                                        createEdgeMapping("$outgoingEdges", "$$edge.targetId"),
-                                        createEdgeMapping("$incomingEdges", "$$edge.sourceId"))));
+        return new Document().append("neighborIds",
+                new Document("$setUnion", Arrays.asList(createEdgeMapping("$outgoingEdges", "$$edge.targetId"),
+                        createEdgeMapping("$incomingEdges", "$$edge.sourceId"))));
     }
 
     private Document createEdgeMapping(final String edgesField, final String idField) {
-        return new Document(
-                "$map",
-                new Document()
-                        .append("input", createEdgeFilter(edgesField))
-                        .append("as", "edge")
-                        .append("in", idField));
+        return new Document("$map", new Document().append("input", createEdgeFilter(edgesField)).append("as", "edge")
+                .append("in", idField));
     }
 
     private Document createEdgeFilter(final String edgesField) {
-        return new Document(
-                "$filter",
-                new Document()
-                        .append("input", edgesField)
-                        .append("as", "edge")
-                        .append("cond", createNotExpiredCondition()));
+        return new Document("$filter", new Document().append("input", edgesField).append("as", "edge").append("cond",
+                createNotExpiredCondition()));
     }
 
     private Document createNotExpiredCondition() {
@@ -202,29 +170,16 @@ public class MongoGraphOperations {
 
         final var pipeline = Arrays.asList(
                 // Start with the specific node
-                Aggregates.match(
-                        Filters.and(Filters.eq("id", startNodeId.id()), Filters.not(Filters.exists("expired")))),
+                Aggregates
+                        .match(Filters.and(Filters.eq("id", startNodeId.id()), Filters.not(Filters.exists("expired")))),
                 // Use $graphLookup to traverse the graph via edges
-                Aggregates.graphLookup(
-                        "edges",
-                        "$id",
-                        "targetId",
-                        "sourceId",
-                        "reachableEdges",
-                        new GraphLookupOptions()
-                                .maxDepth(maxDistance - 1)
+                Aggregates.graphLookup("edges", "$id", "targetId", "sourceId", "reachableEdges",
+                        new GraphLookupOptions().maxDepth(maxDistance - 1)
                                 .restrictSearchWithMatch(Filters.not(Filters.exists("expired")))),
                 // Extract unique node IDs
-                Aggregates.project(new Document()
-                        .append("startNode", "$id")
-                        .append(
-                                "connectedNodes",
-                                new Document(
-                                        "$map",
-                                        new Document()
-                                                .append("input", "$reachableEdges")
-                                                .append("as", "edge")
-                                                .append("in", "$$edge.targetId")))));
+                Aggregates.project(new Document().append("startNode", "$id").append("connectedNodes",
+                        new Document("$map", new Document().append("input", "$reachableEdges").append("as", "edge")
+                                .append("in", "$$edge.targetId")))));
 
         final var nodeIds = new HashSet<NanoId>();
         final var results = database.getCollection("nodes").aggregate(pipeline);
@@ -257,18 +212,10 @@ public class MongoGraphOperations {
      * Checks if a path exists between two nodes using $graphLookup.
      */
     public boolean pathExists(final NanoId sourceId, final NanoId targetId) {
-        final var pipeline = Arrays.asList(
-                Aggregates.match(Filters.eq("sourceId", sourceId.id())),
-                Aggregates.graphLookup(
-                        "edges",
-                        "$targetId",
-                        "targetId",
-                        "sourceId",
-                        "path",
-                        new GraphLookupOptions()
-                                .restrictSearchWithMatch(Filters.and(
-                                        Filters.not(Filters.exists("expired")),
-                                        Filters.ne("targetId", sourceId.id())))),
+        final var pipeline = Arrays.asList(Aggregates.match(Filters.eq("sourceId", sourceId.id())),
+                Aggregates.graphLookup("edges", "$targetId", "targetId", "sourceId", "path",
+                        new GraphLookupOptions().restrictSearchWithMatch(Filters
+                                .and(Filters.not(Filters.exists("expired")), Filters.ne("targetId", sourceId.id())))),
                 Aggregates.match(
                         Filters.or(Filters.eq("targetId", targetId.id()), Filters.in("path.targetId", targetId.id()))),
                 Aggregates.limit(1));

@@ -7,15 +7,15 @@
 package com.erebelo.graphdemo.common.io.stream;
 
 import com.erebelo.graphdemo.common.io.IoConstants;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.EOFException;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Input stream that will throw an EOFException once a pre-set maximum number of bytes has been read.
+ * Input stream that will throw an EOFException once a pre-set maximum number of
+ * bytes has been read.
  */
 public final class FiniteInputStream extends FilterInputStream {
 
@@ -25,9 +25,11 @@ public final class FiniteInputStream extends FilterInputStream {
     private long bytesRemaining;
 
     /**
-     * Creates a finite input stream that will only write to the default large object (LOB) length in bytes. Currently, this is set to 64 mB.
+     * Creates a finite input stream that will only write to the default large
+     * object (LOB) length in bytes. Currently, this is set to 64 mB.
      *
-     * @param in Underlying stream to read
+     * @param in
+     *            Underlying stream to read
      */
     public FiniteInputStream(final InputStream in) {
 
@@ -37,8 +39,10 @@ public final class FiniteInputStream extends FilterInputStream {
     /**
      * Creates a finite input stream that will only read up to maximum bytes.
      *
-     * @param in           Underlying stream to read
-     * @param maximumBytes Number of bytes after which reading will cease
+     * @param in
+     *            Underlying stream to read
+     * @param maximumBytes
+     *            Number of bytes after which reading will cease
      */
     public FiniteInputStream(final InputStream in, final long maximumBytes) {
 

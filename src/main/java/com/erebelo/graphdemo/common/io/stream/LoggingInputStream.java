@@ -6,15 +6,15 @@
 
 package com.erebelo.graphdemo.common.io.stream;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Helper stream that will output the data read to a separate file for analysis, logging or debugging.
+ * Helper stream that will output the data read to a separate file for analysis,
+ * logging or debugging.
  */
 public final class LoggingInputStream extends FilterInputStream {
 
@@ -24,11 +24,15 @@ public final class LoggingInputStream extends FilterInputStream {
     private final FileOutputStream fileOut;
 
     /**
-     * Creates a logging stream that will output all bytes read to the specified URI for later analysis.
+     * Creates a logging stream that will output all bytes read to the specified URI
+     * for later analysis.
      *
-     * @param uri URI to output results to
-     * @param in  Input stream to read
-     * @throws IOException Error opening a file at the specified URI
+     * @param uri
+     *            URI to output results to
+     * @param in
+     *            Input stream to read
+     * @throws IOException
+     *             Error opening a file at the specified URI
      */
     public LoggingInputStream(final String uri, final InputStream in) throws IOException {
 

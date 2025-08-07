@@ -22,21 +22,17 @@ public final class Versions {
      */
     public static <E extends Versioned> Optional<E> findActive(final NanoId id, final Collection<E> items) {
 
-        return items.stream()
-                .filter(v -> v.locator().id().equals(id))
-                .filter(v -> v.expired().isEmpty())
+        return items.stream().filter(v -> v.locator().id().equals(id)).filter(v -> v.expired().isEmpty())
                 .max(Comparator.comparing(e -> e.locator().version()));
     }
 
     /**
      * Finds the version of an element active at a specific timestamp.
      */
-    public static <E extends Versioned> Optional<E> findAt(
-            final NanoId id, final Instant timestamp, final Collection<E> items) {
+    public static <E extends Versioned> Optional<E> findAt(final NanoId id, final Instant timestamp,
+            final Collection<E> items) {
 
-        return items.stream()
-                .filter(v -> v.locator().id().equals(id))
-                .filter(v -> isActiveAt(timestamp, v))
+        return items.stream().filter(v -> v.locator().id().equals(id)).filter(v -> isActiveAt(timestamp, v))
                 .max(Comparator.comparing(e -> e.locator().version()));
     }
 
@@ -45,10 +41,8 @@ public final class Versions {
      */
     public static <E extends Versioned> List<E> findAllVersions(final NanoId id, final Collection<E> items) {
 
-        return items.stream()
-                .filter(v -> v.locator().id().equals(id))
-                .sorted(Comparator.comparing(e -> e.locator().version()))
-                .toList();
+        return items.stream().filter(v -> v.locator().id().equals(id))
+                .sorted(Comparator.comparing(e -> e.locator().version())).toList();
     }
 
     /**
@@ -62,8 +56,8 @@ public final class Versions {
     /**
      * Validates that an element can be expired.
      */
-    public static <E extends Versioned> E validateForExpiry(
-            final Optional<E> element, final NanoId id, final String elementType) {
+    public static <E extends Versioned> E validateForExpiry(final Optional<E> element, final NanoId id,
+            final String elementType) {
 
         return element.orElseThrow(() -> new IllegalArgumentException(elementType + " not found: " + id));
     }
@@ -75,7 +69,6 @@ public final class Versions {
 
         final var created = e.created();
         final var expired = e.expired();
-        return !created.isAfter(timestamp)
-                && (expired.isEmpty() || expired.get().isAfter(timestamp));
+        return !created.isAfter(timestamp) && (expired.isEmpty() || expired.get().isAfter(timestamp));
     }
 }

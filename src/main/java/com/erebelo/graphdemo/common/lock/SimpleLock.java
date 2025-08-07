@@ -9,10 +9,9 @@ package com.erebelo.graphdemo.common.lock;
 import com.erebelo.graphdemo.common.fp.Fn0;
 import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.fp.Proc0;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Functional implementation concurrent locks.
@@ -27,7 +26,8 @@ public final class SimpleLock {
     /**
      * Creates a simple lock wrapper for the specified lock.
      *
-     * @param lock Lock to wrap
+     * @param lock
+     *            Lock to wrap
      */
     private SimpleLock(final Lock lock) {
 
@@ -35,8 +35,9 @@ public final class SimpleLock {
     }
 
     /**
-     * Returns a re-entrant lock, with similar semantics to the Java synchronized keyword. This implementation by default utilizes a fair lock,
-     * whereby the thread with the longest wait gets first access to the lock.
+     * Returns a re-entrant lock, with similar semantics to the Java synchronized
+     * keyword. This implementation by default utilizes a fair lock, whereby the
+     * thread with the longest wait gets first access to the lock.
      */
     public static SimpleLock reentrant() {
 

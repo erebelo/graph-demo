@@ -11,8 +11,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Marks any element type in a source file as stable. This is used for guidance to developers and coding agents to prompt before modifying the
- * annotated element type. This annotation is immutable and thread-safe.
+ * Marks any element type in a source file as stable. This is used for guidance
+ * to developers and coding agents to prompt before modifying the annotated
+ * element type. This annotation is immutable and thread-safe.
  */
 @Documented
 @Retention(RetentionPolicy.SOURCE)

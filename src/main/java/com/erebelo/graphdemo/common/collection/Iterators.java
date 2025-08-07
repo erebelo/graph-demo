@@ -24,8 +24,10 @@ public final class Iterators {
     /**
      * Converts an Enumeration to an iterator.
      *
-     * @param target Enumeration to convert
-     * @param <T>    Parameteried type
+     * @param target
+     *            Enumeration to convert
+     * @param <T>
+     *            Parameteried type
      * @return Iterator Iterator to use
      */
     public static <T> Iterator<T> from(final Enumeration<T> target) {
@@ -49,9 +51,12 @@ public final class Iterators {
     /**
      * Safely removes elements from an iterator based on the test passed in.
      *
-     * @param target Iterator to inspect
-     * @param test   Test to apply
-     * @param <T>    Parameterized type
+     * @param target
+     *            Iterator to inspect
+     * @param test
+     *            Test to apply
+     * @param <T>
+     *            Parameterized type
      * @return int Number of elements removed
      */
     @SuppressWarnings("ReassignedVariable")

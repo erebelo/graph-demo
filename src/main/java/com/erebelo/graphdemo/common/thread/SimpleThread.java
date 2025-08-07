@@ -7,7 +7,8 @@
 package com.erebelo.graphdemo.common.thread;
 
 /**
- * SimpleThead is desigend to be used with SimpleRunnable and ThreadRegistry. The thread will retain a reference to its runnable in the registry to
+ * SimpleThead is desigend to be used with SimpleRunnable and ThreadRegistry.
+ * The thread will retain a reference to its runnable in the registry to
  * facilitate easy, graceful shutdown of resources.
  */
 @SuppressWarnings("ClassExplicitlyExtendsThread")
@@ -21,9 +22,12 @@ final class SimpleThread extends Thread {
     /**
      * Creates a simple thread.
      *
-     * @param group    Registry owned thread group
-     * @param runnable Runnable to execute
-     * @param name     Name of the thread
+     * @param group
+     *            Registry owned thread group
+     * @param runnable
+     *            Runnable to execute
+     * @param name
+     *            Name of the thread
      */
     SimpleThread(final ThreadGroup group, final SimpleRunnable runnable, final String name) {
 

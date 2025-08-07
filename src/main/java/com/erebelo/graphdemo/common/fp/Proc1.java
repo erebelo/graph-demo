@@ -8,7 +8,6 @@ package com.erebelo.graphdemo.common.fp;
 
 import com.erebelo.graphdemo.common.error.IoException;
 import com.erebelo.graphdemo.common.error.UnexpectedException;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -41,7 +40,8 @@ public interface Proc1<T> {
     void accept(T t) throws Exception;
 
     /**
-     * Consistently execute the throwable consumer passed in and generate a mapped exception.
+     * Consistently execute the throwable consumer passed in and generate a mapped
+     * exception.
      */
     @SuppressWarnings("ProhibitedExceptionThrown")
     private static <T> Consumer<T> accept(final Proc1<? super T> c, final Function<Exception, RuntimeException> ex) {

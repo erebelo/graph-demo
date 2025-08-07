@@ -9,29 +9,32 @@ package com.erebelo.graphdemo.common.error;
 import java.io.Serial;
 
 /**
- * Exception indicating that we encountered during an IO operation or anything that has a side-effect. Within functional programming, pure functions
- * do not perform IO or have side-effects. However, for a system to interact with the real world or perform work, side-effects are required. <br>
+ * Exception indicating that we encountered during an IO operation or anything
+ * that has a side-effect. Within functional programming, pure functions do not
+ * perform IO or have side-effects. However, for a system to interact with the
+ * real world or perform work, side-effects are required. <br>
  * Examples of side effects include (but are not limited to): <br>
  *
  * <ul>
- *   <li>IOException - error interacting with input or output streams
- *   <li>SQLException - error interacting with the database
- *   <li>SocketException - error interacting with the networking interface
+ * <li>IOException - error interacting with input or output streams
+ * <li>SQLException - error interacting with the database
+ * <li>SocketException - error interacting with the networking interface
  * </ul>
  *
  * <br>
- * However, a large population of errors that can occur at runtime do not necessarily involve side
- * effects. A few examples: <br>
+ * However, a large population of errors that can occur at runtime do not
+ * necessarily involve side effects. A few examples: <br>
  *
  * <ul>
- *   <li>NullPointerException
- *   <li>ArrayIndexOutOfBoundsException
- *   <li>ParseException
- *   <li>URISyntaxException
+ * <li>NullPointerException
+ * <li>ArrayIndexOutOfBoundsException
+ * <li>ParseException
+ * <li>URISyntaxException
  * </ul>
  * <p>
- * The general best practice is to throw a {@code IoException} for true IO or operations that
- * perform side-effects. For the other cases that can occur, throw a {@code UnexpectedException}.
+ * The general best practice is to throw a {@code IoException} for true IO or
+ * operations that perform side-effects. For the other cases that can occur,
+ * throw a {@code UnexpectedException}.
  */
 public final class IoException extends RuntimeException {
 
@@ -44,7 +47,8 @@ public final class IoException extends RuntimeException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param message Message to include
+     * @param message
+     *            Message to include
      */
     public IoException(final String message) {
 
@@ -54,8 +58,10 @@ public final class IoException extends RuntimeException {
     /**
      * Creates an exception with the specified message.
      *
-     * @param message Message to include
-     * @param cause   Original exception received
+     * @param message
+     *            Message to include
+     * @param cause
+     *            Original exception received
      */
     public IoException(final String message, final Throwable cause) {
 
@@ -65,7 +71,8 @@ public final class IoException extends RuntimeException {
     /**
      * Creates an exception with the specified cause.
      *
-     * @param cause Original exception received
+     * @param cause
+     *            Original exception received
      */
     public IoException(final Throwable cause) {
 

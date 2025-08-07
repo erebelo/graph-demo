@@ -7,8 +7,8 @@
 package com.erebelo.graphdemo.model;
 
 /**
- * Encapsulates a session-based graph that can have queries and operations performed.
- * Implementations must be thread-safe.
+ * Encapsulates a session-based graph that can have queries and operations
+ * performed. Implementations must be thread-safe.
  */
 public interface Graph extends AutoCloseable {
 

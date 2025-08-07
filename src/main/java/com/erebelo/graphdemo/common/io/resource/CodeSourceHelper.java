@@ -7,13 +7,14 @@
 package com.erebelo.graphdemo.common.io.resource;
 
 import com.erebelo.graphdemo.common.fp.Io;
-
 import java.io.InputStream;
 import java.net.URI;
 
 /**
- * Helper class to query the location of where a class has been loaded from (its CodeSource). This can be used to resolve the containing JAR or build
- * folder, as examples. Note that resolution will depend on the calling class passed in, as each may be loaded from different JAR files.
+ * Helper class to query the location of where a class has been loaded from (its
+ * CodeSource). This can be used to resolve the containing JAR or build folder,
+ * as examples. Note that resolution will depend on the calling class passed in,
+ * as each may be loaded from different JAR files.
  */
 public final class CodeSourceHelper {
 
@@ -36,8 +37,7 @@ public final class CodeSourceHelper {
      */
     public static URI locateCodeSource(final Class<?> caller) {
 
-        return Io.withReturn(
-                () -> caller.getProtectionDomain().getCodeSource().getLocation().toURI());
+        return Io.withReturn(() -> caller.getProtectionDomain().getCodeSource().getLocation().toURI());
     }
 
     /**
@@ -45,7 +45,6 @@ public final class CodeSourceHelper {
      */
     public static InputStream resolveStream(final Class<?> caller) {
 
-        return Io.withReturn(
-                () -> caller.getProtectionDomain().getCodeSource().getLocation().openStream());
+        return Io.withReturn(() -> caller.getProtectionDomain().getCodeSource().getLocation().openStream());
     }
 }

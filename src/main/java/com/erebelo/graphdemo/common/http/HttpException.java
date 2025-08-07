@@ -9,7 +9,8 @@ package com.erebelo.graphdemo.common.http;
 import java.io.Serial;
 
 /**
- * Exception thrown when the HTTP status code received is outside the 200 series.
+ * Exception thrown when the HTTP status code received is outside the 200
+ * series.
  */
 public final class HttpException extends RuntimeException {
 
@@ -32,8 +33,10 @@ public final class HttpException extends RuntimeException {
     /**
      * Creates an exception.
      *
-     * @param statusCode HTTP status code
-     * @param body       HTTP response body
+     * @param statusCode
+     *            HTTP status code
+     * @param body
+     *            HTTP response body
      */
     public HttpException(final int statusCode, final String body) {
 

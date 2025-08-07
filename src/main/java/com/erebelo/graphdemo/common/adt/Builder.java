@@ -7,7 +7,8 @@
 package com.erebelo.graphdemo.common.adt;
 
 /**
- * Internal interface for returning a builder. This interface is immutable and thread-safe when implementations are properly implemented.
+ * Internal interface for returning a builder. This interface is immutable and
+ * thread-safe when implementations are properly implemented.
  */
 @FunctionalInterface
 public interface Builder<T> {

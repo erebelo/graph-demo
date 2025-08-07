@@ -7,15 +7,15 @@
 package com.erebelo.graphdemo.common.io.pipe;
 
 import com.erebelo.graphdemo.common.fp.Io;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Pipe implementation that reads from InputStream, writes to OutputStream and works with byte[] values. <br> This implementation does not close the
- * streams passed in.
+ * Pipe implementation that reads from InputStream, writes to OutputStream and
+ * works with byte[] values. <br>
+ * This implementation does not close the streams passed in.
  */
 final class BytesPipe implements Pipe<byte[], InputStream, OutputStream> {
 

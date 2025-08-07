@@ -12,19 +12,18 @@ import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Element;
 import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.Path;
-import org.jgrapht.Graph;
-import org.jgrapht.GraphPath;
-import org.jgrapht.alg.connectivity.ConnectivityInspector;
-import org.jgrapht.alg.cycle.CycleDetector;
-import org.jgrapht.graph.AsSubgraph;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.jgrapht.Graph;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.connectivity.ConnectivityInspector;
+import org.jgrapht.alg.cycle.CycleDetector;
+import org.jgrapht.graph.AsSubgraph;
+import org.springframework.stereotype.Service;
 
 /**
  * Helper utilities for graph operations.
@@ -41,8 +40,8 @@ public class OperationsHelper {
     /**
      * Validates that an element can be expired.
      */
-    public static <E extends Versioned> E validateForExpiry(
-            final Optional<E> element, final NanoId id, final String elementType) {
+    public static <E extends Versioned> E validateForExpiry(final Optional<E> element, final NanoId id,
+            final String elementType) {
 
         return element.orElseThrow(() -> new IllegalArgumentException(elementType + " not found: " + id));
     }
@@ -73,9 +72,7 @@ public class OperationsHelper {
     public static boolean containsCycle(final Path path) {
 
         final var visitedNodes = new HashSet<Node>();
-        return path.elements().stream()
-                .filter(element -> element instanceof Node)
-                .map(element -> (Node) element)
+        return path.elements().stream().filter(element -> element instanceof Node).map(element -> (Node) element)
                 .anyMatch(node -> !visitedNodes.add(node));
     }
 
@@ -95,8 +92,8 @@ public class OperationsHelper {
             switch (element) {
                 case final Node node -> nodes.add(node);
                 case final Edge edge -> edges.add(edge);
-                default -> throw new IllegalArgumentException(
-                        "Unknown element type: " + element.getClass().getSimpleName());
+                default ->
+                    throw new IllegalArgumentException("Unknown element type: " + element.getClass().getSimpleName());
             }
         });
 
@@ -112,8 +109,8 @@ public class OperationsHelper {
     /**
      * Validates that all elements in a component are connected.
      */
-    private static void validateConnectivity(
-            final Set<Node> nodes, final Set<Edge> edges, final Graph<Node, Edge> graph) {
+    private static void validateConnectivity(final Set<Node> nodes, final Set<Edge> edges,
+            final Graph<Node, Edge> graph) {
 
         if ((nodes.size() == 1) && edges.isEmpty()) {
             return;

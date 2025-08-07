@@ -11,17 +11,18 @@ import com.erebelo.graphdemo.common.fp.Fn0;
 import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.fp.Proc1;
 import com.erebelo.graphdemo.common.lock.SimpleLock;
-
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Indicates the type is lazy loadable. The specified supplier will only be called once for the first get() and then memoize the response for
- * subsequent calls.
+ * Indicates the type is lazy loadable. The specified supplier will only be
+ * called once for the first get() and then memoize the response for subsequent
+ * calls.
  */
 public final class Lazy<T> {
 
     /**
-     * Detects a recursive initialization on the same thread and instance (not static since check is per instance).
+     * Detects a recursive initialization on the same thread and instance (not
+     * static since check is per instance).
      */
     @SuppressWarnings("ThreadLocalNotStaticFinal")
     private final ThreadLocal<Boolean> initializing = ThreadLocal.withInitial(() -> false);
@@ -66,7 +67,8 @@ public final class Lazy<T> {
     }
 
     /**
-     * Creates a lazily evaluated value that will invoke the supplied function only once, on the first call of get().
+     * Creates a lazily evaluated value that will invoke the supplied function only
+     * once, on the first call of get().
      */
     public static <T> Lazy<T> of(final Fn0<T> supplier) {
 
@@ -74,8 +76,8 @@ public final class Lazy<T> {
     }
 
     /**
-     * Creates a fail-fast lazily evaluated value that will invoke the supplied function only once, caching either the successful result or the
-     * failure.
+     * Creates a fail-fast lazily evaluated value that will invoke the supplied
+     * function only once, caching either the successful result or the failure.
      */
     public static <T> Lazy<T> ofFailFast(final Fn0<T> supplier) {
 
@@ -105,7 +107,8 @@ public final class Lazy<T> {
     }
 
     /**
-     * Load the value from the supplier and ensure that we do not cause deadlock or allow recursive calls to stack overflow.
+     * Load the value from the supplier and ensure that we do not cause deadlock or
+     * allow recursive calls to stack overflow.
      */
     private void load() {
 
@@ -123,7 +126,8 @@ public final class Lazy<T> {
     }
 
     /**
-     * Loads the value from the supplier and allows subsequent requests to retry if failed.
+     * Loads the value from the supplier and allows subsequent requests to retry if
+     * failed.
      */
     private void loadAllowRetry() {
 

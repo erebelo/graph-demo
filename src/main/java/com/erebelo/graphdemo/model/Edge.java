@@ -8,8 +8,8 @@ package com.erebelo.graphdemo.model;
 import com.erebelo.graphdemo.common.annotation.Stable;
 
 /**
- * Represents a directed edge in the graph connecting two nodes.
- * Implementations must be immutable and thread-safe.
+ * Represents a directed edge in the graph connecting two nodes. Implementations
+ * must be immutable and thread-safe.
  */
 @Stable
 public interface Edge extends Element {

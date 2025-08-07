@@ -7,7 +7,8 @@
 package com.erebelo.graphdemo.common.error;
 
 /**
- * Utility to allow throwing checked exceptions as unchecked. Relies on the fact that generics are erased at runtime.
+ * Utility to allow throwing checked exceptions as unchecked. Relies on the fact
+ * that generics are erased at runtime.
  */
 final class Unchecked {
 
@@ -18,11 +19,15 @@ final class Unchecked {
     }
 
     /**
-     * Convert any exception to an unchecked exception and rethrow it. This method returns a RuntimeException that will (should) never be actually
-     * returned. The logic is to allow calls like: <br> {@code catch (final Exception e) { throw rethrow(e); } } <br> Otherwise, the compiler will
-     * complain about a catch block that is not returning anything if the declaring method is anything other than void.
+     * Convert any exception to an unchecked exception and rethrow it. This method
+     * returns a RuntimeException that will (should) never be actually returned. The
+     * logic is to allow calls like: <br>
+     * {@code catch (final Exception e) { throw rethrow(e); } } <br>
+     * Otherwise, the compiler will complain about a catch block that is not
+     * returning anything if the declaring method is anything other than void.
      *
-     * @param t Exception to rethrow as unchecked
+     * @param t
+     *            Exception to rethrow as unchecked
      * @return UnexpectedException Should never be returned
      */
     @SuppressWarnings({"RedundantTypeArguments", "ProhibitedExceptionThrown"})

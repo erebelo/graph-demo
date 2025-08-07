@@ -15,9 +15,6 @@ import com.erebelo.graphdemo.model.Element;
 import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.Operations;
 import com.erebelo.graphdemo.model.simple.SimpleComponent;
-import org.jgrapht.Graph;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,18 +24,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import org.jgrapht.Graph;
+import org.springframework.stereotype.Service;
 
 /**
  * Operations for managing components in a JGraphT graph.
  *
- * This implementation uses a hybrid approach:
- * - Component metadata (versions, data, timestamps) is stored in componentVersions map
- * - Component membership is tracked separately in elementToComponents map
- * - The actual graph elements remain unchanged to maintain graph integrity
+ * This implementation uses a hybrid approach: - Component metadata (versions,
+ * data, timestamps) is stored in componentVersions map - Component membership
+ * is tracked separately in elementToComponents map - The actual graph elements
+ * remain unchanged to maintain graph integrity
  *
  * Note: Due to the immutable nature of SimpleNode/SimpleEdge records and their
- * inclusion of components in equals/hashCode, we cannot modify Element#components()
- * without breaking graph lookups. Instead, we track membership externally.
+ * inclusion of components in equals/hashCode, we cannot modify
+ * Element#components() without breaking graph lookups. Instead, we track
+ * membership externally.
  */
 @Service
 public class ComponentOperations implements Operations<Component> {
@@ -63,13 +63,12 @@ public class ComponentOperations implements Operations<Component> {
         final var locator = Locator.generate();
 
         // Track component membership externally
-        elements.forEach(element -> elementToComponents
-                .computeIfAbsent(element, k -> new HashSet<>())
-                .add(locator.id()));
+        elements.forEach(
+                element -> elementToComponents.computeIfAbsent(element, k -> new HashSet<>()).add(locator.id()));
 
         // Create component with the original elements
-        final var component =
-                new SimpleComponent(locator, new ArrayList<>(elements), data, timestamp, Optional.empty());
+        final var component = new SimpleComponent(locator, new ArrayList<>(elements), data, timestamp,
+                Optional.empty());
 
         // Store component version
         componentVersions.computeIfAbsent(locator.id(), k -> new ArrayList<>()).add(component);
@@ -100,13 +99,11 @@ public class ComponentOperations implements Operations<Component> {
         final var incremented = expired.locator().increment();
 
         // Add component reference to new elements
-        elements.forEach(element -> elementToComponents
-                .computeIfAbsent(element, k -> new HashSet<>())
-                .add(id));
+        elements.forEach(element -> elementToComponents.computeIfAbsent(element, k -> new HashSet<>()).add(id));
 
         // Create component with the original elements
-        final var newComponent =
-                new SimpleComponent(incremented, new ArrayList<>(elements), data, timestamp, Optional.empty());
+        final var newComponent = new SimpleComponent(incremented, new ArrayList<>(elements), data, timestamp,
+                Optional.empty());
 
         // Store new version
         componentVersions.get(id).add(newComponent);
@@ -122,8 +119,8 @@ public class ComponentOperations implements Operations<Component> {
             return Optional.empty();
         }
 
-        return versions.stream().filter(c -> c.expired().isEmpty()).max(Comparator.comparingInt(c -> c.locator()
-                .version()));
+        return versions.stream().filter(c -> c.expired().isEmpty())
+                .max(Comparator.comparingInt(c -> c.locator().version()));
     }
 
     @Override
@@ -135,8 +132,7 @@ public class ComponentOperations implements Operations<Component> {
             return Optional.empty();
         }
 
-        return versions.stream()
-                .filter(c -> !c.created().isAfter(timestamp))
+        return versions.stream().filter(c -> !c.created().isAfter(timestamp))
                 .filter(c -> c.expired().isEmpty() || c.expired().get().isAfter(timestamp))
                 .max(Comparator.comparingInt(c -> c.locator().version()));
     }
@@ -151,10 +147,7 @@ public class ComponentOperations implements Operations<Component> {
     @Override
     public List<Component> allActive() {
 
-        return componentVersions.values().stream()
-                .flatMap(List::stream)
-                .filter(c -> c.expired().isEmpty())
-                .toList();
+        return componentVersions.values().stream().flatMap(List::stream).filter(c -> c.expired().isEmpty()).toList();
     }
 
     @Override
@@ -163,12 +156,8 @@ public class ComponentOperations implements Operations<Component> {
         final var component = OperationsHelper.validateForExpiry(findActive(id), id, "Component");
 
         // Create expired version
-        final var expiredComponent = new SimpleComponent(
-                component.locator(),
-                component.elements(),
-                component.data(),
-                component.created(),
-                Optional.of(timestamp));
+        final var expiredComponent = new SimpleComponent(component.locator(), component.elements(), component.data(),
+                component.created(), Optional.of(timestamp));
 
         // Update stored version
         final var versions = componentVersions.get(id);
@@ -191,10 +180,6 @@ public class ComponentOperations implements Operations<Component> {
             return List.of();
         }
 
-        return componentIds.stream()
-                .map(this::findActive)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .toList();
+        return componentIds.stream().map(this::findActive).filter(Optional::isPresent).map(Optional::get).toList();
     }
 }

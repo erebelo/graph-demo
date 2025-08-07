@@ -7,12 +7,11 @@
 package com.erebelo.graphdemo.model;
 
 import com.erebelo.graphdemo.common.version.Versioned;
-
 import java.util.List;
 
 /**
- * Represents a versioned, maximally connected subgraph containing nodes and edges.
- * Implementations must be immutable and thread-safe.
+ * Represents a versioned, maximally connected subgraph containing nodes and
+ * edges. Implementations must be immutable and thread-safe.
  */
 public interface Component extends Versioned {
 

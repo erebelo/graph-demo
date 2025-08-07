@@ -7,7 +7,6 @@
 package com.erebelo.graphdemo.common.error;
 
 import com.erebelo.graphdemo.common.fp.Proc0;
-
 import java.io.Serial;
 
 /**
@@ -22,12 +21,16 @@ public final class Retry {
     }
 
     /**
-     * Simple retry policy that attempts the specified number of retries (including the first attempt) while waiting the indicated number of
-     * milliseconds in between.
+     * Simple retry policy that attempts the specified number of retries (including
+     * the first attempt) while waiting the indicated number of milliseconds in
+     * between.
      *
-     * @param run        Command to run
-     * @param count      Number of attempts
-     * @param waitMillis Time between attempts
+     * @param run
+     *            Command to run
+     * @param count
+     *            Number of attempts
+     * @param waitMillis
+     *            Time between attempts
      */
     public static void simple(final Proc0 run, final int count, final long waitMillis) {
 
@@ -41,10 +44,14 @@ public final class Retry {
     /**
      * Recursive method to continually retry in fixed time increments.
      *
-     * @param fx         Command to run
-     * @param count      Downward count to zero on remaining retries
-     * @param waitMillis Milliseconds to wait
-     * @param e          Exception placeholder for any errors
+     * @param fx
+     *            Command to run
+     * @param count
+     *            Downward count to zero on remaining retries
+     * @param waitMillis
+     *            Milliseconds to wait
+     * @param e
+     *            Exception placeholder for any errors
      * @return boolean True if successful, false if an exception occurred
      */
     private static boolean invokeSimple(final Proc0 fx, final int count, final long waitMillis, final Exception e) {
@@ -80,7 +87,8 @@ public final class Retry {
         /**
          * Creates an exception.
          *
-         * @param message Message to display
+         * @param message
+         *            Message to display
          */
         public RetryLimitExceededException(final String message) {
 

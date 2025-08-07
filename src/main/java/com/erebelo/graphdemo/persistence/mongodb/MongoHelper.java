@@ -9,13 +9,12 @@ package com.erebelo.graphdemo.persistence.mongodb;
 import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.version.Locator;
 import com.erebelo.graphdemo.common.version.NanoId;
-import org.bson.Document;
-
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
+import org.bson.Document;
 
 /**
  * Utility class containing common MongoDB operations for graph persistence.
@@ -29,8 +28,8 @@ final class MongoHelper {
     }
 
     /**
-     * Formats an Instant to ISO-8601 string with millisecond precision.
-     * MongoDB schema expects timestamps with up to 3 decimal places.
+     * Formats an Instant to ISO-8601 string with millisecond precision. MongoDB
+     * schema expects timestamps with up to 3 decimal places.
      */
     private static String formatTimestamp(final Instant instant) {
         // Truncate to milliseconds to match MongoDB schema validation
@@ -40,15 +39,11 @@ final class MongoHelper {
     /**
      * Creates a base document with common fields for versioned entities.
      */
-    static Document createBaseDocument(
-            final Locator locator, final String type, final Instant created, final String serializedData) {
+    static Document createBaseDocument(final Locator locator, final String type, final Instant created,
+            final String serializedData) {
 
-        return new Document()
-                .append("_id", locator.id().id() + ':' + locator.version())
-                .append("id", locator.id().id())
-                .append("versionId", locator.version())
-                .append("type", type)
-                .append("created", formatTimestamp(created))
+        return new Document().append("_id", locator.id().id() + ':' + locator.version()).append("id", locator.id().id())
+                .append("versionId", locator.version()).append("type", type).append("created", formatTimestamp(created))
                 .append("data", serializedData);
     }
 
@@ -89,15 +84,13 @@ final class MongoHelper {
      */
     static List<NanoId> convertToNanoIdList(final Iterable<String> stringIds) {
 
-        return Io.withReturn(() -> StreamSupport.stream(stringIds.spliterator(), false)
-                .map(NanoId::new)
-                .toList());
+        return Io.withReturn(() -> StreamSupport.stream(stringIds.spliterator(), false).map(NanoId::new).toList());
     }
 
     /**
      * Record containing extracted versioned document data.
      */
-    record VersionedDocumentData(
-            Locator locator, String type, Instant created, Optional<Instant> expired, String serializedData) {
+    record VersionedDocumentData(Locator locator, String type, Instant created, Optional<Instant> expired,
+            String serializedData) {
     }
 }

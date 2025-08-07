@@ -12,10 +12,9 @@ import com.erebelo.graphdemo.model.Path;
 import com.erebelo.graphdemo.model.jgrapht.GraphOperations;
 import com.erebelo.graphdemo.model.jgrapht.NodeOperations;
 import com.erebelo.graphdemo.persistence.GraphRepository;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * Default implementation of GraphService using session-based transactions.
@@ -26,12 +25,11 @@ public final class DefaultGraphService implements GraphService {
     private final GraphRepository repository;
     private final GraphOperations graphOperations;
     private final NodeOperations nodeOperations;
-    // FIXME: PathOperations should be injected once SimpleMutableGraph is implemented
+    // FIXME: PathOperations should be injected once SimpleMutableGraph is
+    // implemented
     // private final PathOperations pathOperations;
 
-    public DefaultGraphService(
-            final GraphRepository repository,
-            final GraphOperations graphOperations,
+    public DefaultGraphService(final GraphRepository repository, final GraphOperations graphOperations,
             final NodeOperations nodeOperations) {
 
         this.repository = repository;
@@ -43,11 +41,9 @@ public final class DefaultGraphService implements GraphService {
     @Transactional(readOnly = true)
     public boolean hasPath(final NanoId sourceNodeId, final NanoId targetNodeId) {
 
-        final var sourceNode = nodeOperations
-                .findActive(sourceNodeId)
+        final var sourceNode = nodeOperations.findActive(sourceNodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Source node not found: " + sourceNodeId));
-        final var targetNode = nodeOperations
-                .findActive(targetNodeId)
+        final var targetNode = nodeOperations.findActive(targetNodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Target node not found: " + targetNodeId));
 
         // FIXME: Use pathOperations once it's properly injected
@@ -72,7 +68,7 @@ public final class DefaultGraphService implements GraphService {
 
                 // FIXME: Use pathOperations once it's properly injected
                 // if (pathOperations.pathExists(sourceNode, targetNode)) {
-                //     final var paths = pathOperations.allPaths(sourceNode, targetNode);
+                // final var paths = pathOperations.allPaths(sourceNode, targetNode);
                 if (false) {
                     final var paths = List.<Path>of();
                     connectedPaths.addAll(paths);
@@ -87,11 +83,9 @@ public final class DefaultGraphService implements GraphService {
     @Transactional(readOnly = true)
     public Path getShortestPath(final NanoId sourceNodeId, final NanoId targetNodeId) {
 
-        final var sourceNode = nodeOperations
-                .findActive(sourceNodeId)
+        final var sourceNode = nodeOperations.findActive(sourceNodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Source node not found: " + sourceNodeId));
-        final var targetNode = nodeOperations
-                .findActive(targetNodeId)
+        final var targetNode = nodeOperations.findActive(targetNodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Target node not found: " + targetNodeId));
 
         // FIXME: Use pathOperations once it's properly injected

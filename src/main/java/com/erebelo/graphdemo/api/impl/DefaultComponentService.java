@@ -14,12 +14,11 @@ import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Element;
 import com.erebelo.graphdemo.model.jgrapht.ComponentOperations;
 import com.erebelo.graphdemo.persistence.GraphRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Default implementation of ComponentService using session-based transactions.
@@ -61,8 +60,7 @@ public final class DefaultComponentService implements ComponentService {
         // Find all active components and check if they contain an element with this ID
         return componentOperations.allActive().stream()
                 .filter(component -> component.elements().stream()
-                        .anyMatch(element -> element.locator().id().equals(id)
-                                && element.expired().isEmpty()))
+                        .anyMatch(element -> element.locator().id().equals(id) && element.expired().isEmpty()))
                 .toList();
     }
 
@@ -71,15 +69,11 @@ public final class DefaultComponentService implements ComponentService {
     public List<Component> findContaining(final NanoId id, final Instant timestamp) {
 
         final var allComponents = componentOperations.allActive().stream()
-                .flatMap(component ->
-                        componentOperations.findAllVersions(component.locator().id()).stream())
-                .toList();
+                .flatMap(component -> componentOperations.findAllVersions(component.locator().id()).stream()).toList();
         return allComponents.stream()
                 .filter(component -> !component.created().isAfter(timestamp)
-                        && (component.expired().isEmpty()
-                        || component.expired().get().isAfter(timestamp))
-                        && component.elements().stream()
-                        .anyMatch(element -> element.locator().id().equals(id)))
+                        && (component.expired().isEmpty() || component.expired().get().isAfter(timestamp))
+                        && component.elements().stream().anyMatch(element -> element.locator().id().equals(id)))
                 .toList();
     }
 
@@ -87,9 +81,7 @@ public final class DefaultComponentService implements ComponentService {
     @Transactional(readOnly = true)
     public Component find(final Locator locator) {
 
-        return repository
-                .components()
-                .find(locator)
+        return repository.components().find(locator)
                 .orElseThrow(() -> new IllegalArgumentException("Component not found: " + locator));
     }
 

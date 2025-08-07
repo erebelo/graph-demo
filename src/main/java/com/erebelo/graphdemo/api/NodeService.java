@@ -9,7 +9,6 @@ package com.erebelo.graphdemo.api;
 import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Node;
-
 import java.util.List;
 
 /**

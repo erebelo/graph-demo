@@ -10,17 +10,16 @@ import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.fp.Proc0;
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
 import org.jgrapht.event.GraphEdgeChangeEvent;
 import org.jgrapht.event.GraphVertexChangeEvent;
 import org.springframework.stereotype.Repository;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-
 /**
- * Graph listener that queues up database operations in response to graph events and then
- * executes then defers execution until the flush() method is called.
+ * Graph listener that queues up database operations in response to graph events
+ * and then executes then defers execution until the flush() method is called.
  */
 @Repository("delegatedGraphListenerRepository")
 @Stable

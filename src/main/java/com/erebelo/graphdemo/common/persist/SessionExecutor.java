@@ -15,7 +15,8 @@ public final class SessionExecutor {
     }
 
     /**
-     * Creates a session, executes the operation (commits if succsesful, rollsback if failed) and closes the session.
+     * Creates a session, executes the operation (commits if succsesful, rollsback
+     * if failed) and closes the session.
      */
     @SuppressWarnings("OverlyNestedMethod")
     public static <T> T execute(final SessionFactory factory, final Fn0<T> operation) {

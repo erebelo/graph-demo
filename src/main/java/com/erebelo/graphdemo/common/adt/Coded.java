@@ -7,9 +7,11 @@
 package com.erebelo.graphdemo.common.adt;
 
 /**
- * Represents a type that has a code value (such as to identify it in a database or lookup). Used primarily with CodedFinder.
+ * Represents a type that has a code value (such as to identify it in a database
+ * or lookup). Used primarily with CodedFinder.
  *
- * @param <T> Parameterized type of the code value
+ * @param <T>
+ *            Parameterized type of the code value
  */
 @FunctionalInterface
 public interface Coded<T> {

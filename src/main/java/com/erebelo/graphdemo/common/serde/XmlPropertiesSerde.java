@@ -7,7 +7,6 @@
 package com.erebelo.graphdemo.common.serde;
 
 import com.erebelo.graphdemo.common.fp.Io;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -29,7 +28,8 @@ public final class XmlPropertiesSerde {
     }
 
     /**
-     * Parses the local filesystem URI into a map of string key/value pairs. The XML file should be in standard java.util.Properties format.
+     * Parses the local filesystem URI into a map of string key/value pairs. The XML
+     * file should be in standard java.util.Properties format.
      */
     public static Map<String, String> deserialize(final Path path) {
 
@@ -41,7 +41,8 @@ public final class XmlPropertiesSerde {
     }
 
     /**
-     * Parses the specified stream into a map of string key/value pairs. The XML file should be in standard java.util.Properties format.
+     * Parses the specified stream into a map of string key/value pairs. The XML
+     * file should be in standard java.util.Properties format.
      */
     public static Map<String, String> deserialize(final InputStream in) {
 

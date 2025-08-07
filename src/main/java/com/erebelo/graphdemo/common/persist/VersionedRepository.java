@@ -3,13 +3,13 @@ package com.erebelo.graphdemo.common.persist;
 import com.erebelo.graphdemo.common.version.Locator;
 import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.common.version.Versioned;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Base operations for any repository that tracks a versioned element (Node, Edge and Component).
+ * Base operations for any repository that tracks a versioned element (Node,
+ * Edge and Component).
  */
 public interface VersionedRepository<T extends Versioned> {
 

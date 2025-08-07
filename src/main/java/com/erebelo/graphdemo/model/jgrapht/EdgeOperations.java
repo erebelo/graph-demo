@@ -14,13 +14,12 @@ import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.Operations;
 import com.erebelo.graphdemo.model.simple.SimpleEdge;
-import org.jgrapht.Graph;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import org.jgrapht.Graph;
+import org.springframework.stereotype.Service;
 
 /**
  * JGraphT-based implementation of edge operations for versioned graph elements.
@@ -56,8 +55,8 @@ public class EdgeOperations implements Operations<Edge> {
 
         final var expired = expire(id, timestamp);
         final var incremented = expired.locator().increment();
-        final var newEdge =
-                new SimpleEdge(incremented, expired.source(), expired.target(), data, timestamp, Optional.empty());
+        final var newEdge = new SimpleEdge(incremented, expired.source(), expired.target(), data, timestamp,
+                Optional.empty());
         graph.addEdge(newEdge.source(), newEdge.target(), newEdge);
         return newEdge;
     }
@@ -90,8 +89,8 @@ public class EdgeOperations implements Operations<Edge> {
     public Edge expire(final NanoId id, final Instant timestamp) {
 
         final var edge = OperationsHelper.validateForExpiry(findActive(id), id, "Edge");
-        final var expiredEdge = new SimpleEdge(
-                edge.locator(), edge.source(), edge.target(), edge.data(), edge.created(), Optional.of(timestamp));
+        final var expiredEdge = new SimpleEdge(edge.locator(), edge.source(), edge.target(), edge.data(),
+                edge.created(), Optional.of(timestamp));
         graph.removeEdge(edge);
         graph.addEdge(edge.source(), edge.target(), expiredEdge);
         return expiredEdge;
@@ -102,9 +101,7 @@ public class EdgeOperations implements Operations<Edge> {
      */
     public List<Edge> getEdgesFrom(final Node node) {
 
-        return graph.outgoingEdgesOf(node).stream()
-                .filter(edge -> edge.expired().isEmpty())
-                .toList();
+        return graph.outgoingEdgesOf(node).stream().filter(edge -> edge.expired().isEmpty()).toList();
     }
 
     /**
@@ -112,8 +109,6 @@ public class EdgeOperations implements Operations<Edge> {
      */
     public List<Edge> getEdgesTo(final Node node) {
 
-        return graph.incomingEdgesOf(node).stream()
-                .filter(edge -> edge.expired().isEmpty())
-                .toList();
+        return graph.incomingEdgesOf(node).stream().filter(edge -> edge.expired().isEmpty()).toList();
     }
 }

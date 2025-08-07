@@ -22,7 +22,8 @@ public final class Catch {
     }
 
     /**
-     * Executes the specified handler. This is normally invoked from within a catch-block.
+     * Executes the specified handler. This is normally invoked from within a
+     * catch-block.
      */
     public static void withVoid(final Throwable thrown, final Consumer<Throwable> fx) {
 
@@ -38,7 +39,8 @@ public final class Catch {
     }
 
     /**
-     * Executes the specified funciton, returning the result. This is normally called from within a catch-block.
+     * Executes the specified funciton, returning the result. This is normally
+     * called from within a catch-block.
      */
     public static <T> T withReturn(final Throwable thrown, final Function<Throwable, T> fx) {
 

@@ -7,7 +7,6 @@
 package com.erebelo.graphdemo.common.http;
 
 import com.erebelo.graphdemo.common.error.UnexpectedException;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -27,15 +26,14 @@ final class HttpPrettyPrinter {
     }
 
     /**
-     * Formats the HTTP request and body. Note this may divulge privacy/security details if output in a log.
+     * Formats the HTTP request and body. Note this may divulge privacy/security
+     * details if output in a log.
      */
     public static String toString(final HttpRequest request, final Optional<String> body) {
 
-        try (var out = new StringWriter();
-             var writer = new PrintWriter(out)) {
-            writer.println("%s %s %s"
-                    .formatted(
-                            request.method(), request.uri(), request.version().orElse(Version.HTTP_1_1)));
+        try (var out = new StringWriter(); var writer = new PrintWriter(out)) {
+            writer.println(
+                    "%s %s %s".formatted(request.method(), request.uri(), request.version().orElse(Version.HTTP_1_1)));
             for (final var entry : request.headers().map().entrySet()) {
                 for (final var value : entry.getValue()) {
                     writer.println("%s: %s".formatted(entry.getKey(), value));

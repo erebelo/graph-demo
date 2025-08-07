@@ -14,7 +14,8 @@ import com.erebelo.graphdemo.persistence.GraphRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * MongoDB implementation of GraphRepository compatible with DelegatedGraphListenerRepository.
+ * MongoDB implementation of GraphRepository compatible with
+ * DelegatedGraphListenerRepository.
  */
 @Repository("mongoGraphRepository")
 public class MongoGraphRepository implements GraphRepository {
@@ -24,8 +25,8 @@ public class MongoGraphRepository implements GraphRepository {
     private final MongoComponentRepository components;
     private final MongoGraphOperations graphOperations;
 
-    public MongoGraphRepository(MongoNodeRepository nodes, MongoEdgeRepository edges, MongoComponentRepository components,
-            MongoGraphOperations graphOperations) {
+    public MongoGraphRepository(MongoNodeRepository nodes, MongoEdgeRepository edges,
+            MongoComponentRepository components, MongoGraphOperations graphOperations) {
         this.nodes = nodes;
         this.edges = edges;
         this.components = components;
@@ -37,11 +38,8 @@ public class MongoGraphRepository implements GraphRepository {
         final var nodeRepository = new MongoNodeRepository(session.database());
         final var edgeRepository = new MongoEdgeRepository(session.database(), nodeRepository);
         final var graphOperations = new MongoGraphOperations(session.database(), nodeRepository, edgeRepository);
-        return new MongoGraphRepository(
-                nodeRepository,
-                edgeRepository,
-                new MongoComponentRepository(session.database(), nodeRepository, edgeRepository),
-                graphOperations);
+        return new MongoGraphRepository(nodeRepository, edgeRepository,
+                new MongoComponentRepository(session.database(), nodeRepository, edgeRepository), graphOperations);
     }
 
     @Override

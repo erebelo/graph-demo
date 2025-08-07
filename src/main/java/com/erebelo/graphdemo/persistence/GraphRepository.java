@@ -11,8 +11,8 @@ import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
 
 /**
- * Common interface for graph persistence operations.
- * Provides CRUD operations for nodes and edges with version support.
+ * Common interface for graph persistence operations. Provides CRUD operations
+ * for nodes and edges with version support.
  */
 @Stable
 public interface GraphRepository {

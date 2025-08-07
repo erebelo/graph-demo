@@ -19,7 +19,6 @@ public final class MongoSession implements Session {
     private final ClientSession clientSession;
     private final MongoDatabase database;
 
-
     public MongoSession(final MongoClient mongoClient, final String databaseName) {
 
         clientSession = mongoClient.startSession();

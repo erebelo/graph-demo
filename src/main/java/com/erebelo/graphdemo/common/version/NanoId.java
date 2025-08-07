@@ -10,7 +10,8 @@ import com.aventrix.jnanoid.jnanoid.NanoIdUtils;
 import com.erebelo.graphdemo.common.annotation.Stable;
 
 /**
- * Encapsulates a Nano ID used to uniquely identify an item, like a UUID, but compliant for REST or microservice usage. This record is immutable and
+ * Encapsulates a Nano ID used to uniquely identify an item, like a UUID, but
+ * compliant for REST or microservice usage. This record is immutable and
  * thread-safe.
  */
 @Stable

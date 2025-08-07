@@ -13,12 +13,11 @@ import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.jgrapht.NodeOperations;
 import com.erebelo.graphdemo.persistence.GraphRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Default implementation of NodeService using Spring transactions.
@@ -56,8 +55,7 @@ public final class DefaultNodeService implements NodeService {
     @Transactional(readOnly = true)
     public List<Node> getNeighbors(final NanoId nodeId) {
 
-        final var node = nodeOperations
-                .findActive(nodeId)
+        final var node = nodeOperations.findActive(nodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Node not found: " + nodeId));
         return nodeOperations.getNeighbors(node);
     }
@@ -66,9 +64,7 @@ public final class DefaultNodeService implements NodeService {
     @Transactional(readOnly = true)
     public Node find(final Locator locator) {
 
-        return repository
-                .nodes()
-                .find(locator)
+        return repository.nodes().find(locator)
                 .orElseThrow(() -> new IllegalArgumentException("Node not found: " + locator));
     }
 

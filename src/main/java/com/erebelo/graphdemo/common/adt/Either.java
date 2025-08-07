@@ -9,13 +9,16 @@ package com.erebelo.graphdemo.common.adt;
 import java.util.function.Function;
 
 /**
- * Encapsulates an Either monad. The standard semantics are to treat the left value as an error condition and the right value as a successful result.
- * However, an Either can also simply store two heterogenous types. This class is immutable and thread-safe.
+ * Encapsulates an Either monad. The standard semantics are to treat the left
+ * value as an error condition and the right value as a successful result.
+ * However, an Either can also simply store two heterogenous types. This class
+ * is immutable and thread-safe.
  */
 public abstract class Either<A, B> {
 
     /**
-     * Constructs a left-projection of an either. Typically this will be the an error during processing.
+     * Constructs a left-projection of an either. Typically this will be the an
+     * error during processing.
      */
     public static <A, B> Either<A, B> left(final A a) {
 
@@ -23,7 +26,8 @@ public abstract class Either<A, B> {
     }
 
     /**
-     * Constructs a right-projection of an either. Typically this will be the successful result of processing.
+     * Constructs a right-projection of an either. Typically this will be the
+     * successful result of processing.
      */
     public static <A, B> Either<A, B> right(final B b) {
 
@@ -41,13 +45,15 @@ public abstract class Either<A, B> {
     public abstract boolean isRight();
 
     /**
-     * Applies a function to either the left-projection or right-projection, depending on which type of Either this represents. Only one of the
-     * functions will be executed (based on left or right).
+     * Applies a function to either the left-projection or right-projection,
+     * depending on which type of Either this represents. Only one of the functions
+     * will be executed (based on left or right).
      */
     public abstract <X> X either(Function<A, X> left, Function<B, X> right);
 
     /**
-     * Represents the left projection of an Either, typically an error condition. This class is immutable and thread-safe.
+     * Represents the left projection of an Either, typically an error condition.
+     * This class is immutable and thread-safe.
      */
     public static class Left<A, B> extends Either<A, B> {
 
@@ -93,7 +99,8 @@ public abstract class Either<A, B> {
     }
 
     /**
-     * Represents the right projection of an Either, typically a successful execution result. This class is immutable and thread-safe.
+     * Represents the right projection of an Either, typically a successful
+     * execution result. This class is immutable and thread-safe.
      */
     public static class Right<A, B> extends Either<A, B> {
 

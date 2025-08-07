@@ -13,7 +13,8 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * Helper methods to work with a java.util.Stream when the normal API is confusing or difficult.
+ * Helper methods to work with a java.util.Stream when the normal API is
+ * confusing or difficult.
  */
 public final class Streams {
 
@@ -26,7 +27,8 @@ public final class Streams {
     /**
      * Converts a byte array to a stream.
      *
-     * @param target Bytes to convert
+     * @param target
+     *            Bytes to convert
      * @return Stream Stream to use
      */
     public static Stream<Byte> of(final byte... target) {
@@ -38,8 +40,10 @@ public final class Streams {
     /**
      * Converts an Enumeration to a stream.
      *
-     * @param target Enumeration to convert
-     * @param <T>    Parameterized type
+     * @param target
+     *            Enumeration to convert
+     * @param <T>
+     *            Parameterized type
      * @return Stream Stream to use
      */
     public static <T> Stream<T> from(final Enumeration<T> target) {
@@ -50,8 +54,10 @@ public final class Streams {
     /**
      * Converts an Iterator to a non-parallized Stream.
      *
-     * @param target Iterator to stream
-     * @param <T>    Parameterized type
+     * @param target
+     *            Iterator to stream
+     * @param <T>
+     *            Parameterized type
      * @return Stream Stream version of Iterable
      */
     public static <T> Stream<T> from(final Iterator<T> target) {
@@ -62,8 +68,10 @@ public final class Streams {
     /**
      * Converts an Iterable to a non-parallized Stream.
      *
-     * @param target Iterable to stream
-     * @param <T>    Parameterized type
+     * @param target
+     *            Iterable to stream
+     * @param <T>
+     *            Parameterized type
      * @return Stream Stream version of Iterable
      */
     public static <T> Stream<T> from(final Iterable<T> target) {

@@ -8,7 +8,6 @@ package com.erebelo.graphdemo.common.fp;
 
 import com.erebelo.graphdemo.common.error.IoException;
 import com.erebelo.graphdemo.common.error.UnexpectedException;
-
 import java.util.function.Function;
 
 /**
@@ -18,9 +17,11 @@ import java.util.function.Function;
 public interface Proc0 {
 
     /**
-     * Execute the specified runnable that can throw an exception. If an exception is thrown, it will be converted to an unchecked exception.
+     * Execute the specified runnable that can throw an exception. If an exception
+     * is thrown, it will be converted to an unchecked exception.
      *
-     * @param fx Consumer function to execute
+     * @param fx
+     *            Consumer function to execute
      */
     static void runAsTry(final Proc0 fx) {
 
@@ -28,9 +29,11 @@ public interface Proc0 {
     }
 
     /**
-     * Execute the specified runnable that can throw an exception. If an exception is thrown, it will be converted to an unchecked exception.
+     * Execute the specified runnable that can throw an exception. If an exception
+     * is thrown, it will be converted to an unchecked exception.
      *
-     * @param fx Consumer function to execute
+     * @param fx
+     *            Consumer function to execute
      */
     static void runAsIo(final Proc0 fx) {
 
@@ -44,7 +47,8 @@ public interface Proc0 {
     void run() throws Exception;
 
     /**
-     * Execute the specified runnable that can throw an exception. If an exception is thrown, it will be converted to an unchecked exception.
+     * Execute the specified runnable that can throw an exception. If an exception
+     * is thrown, it will be converted to an unchecked exception.
      */
     private static <E extends RuntimeException> void run(final Proc0 fx, final Function<Exception, E> ex) {
 

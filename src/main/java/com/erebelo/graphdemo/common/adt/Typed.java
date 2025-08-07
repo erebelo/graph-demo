@@ -11,7 +11,8 @@ import java.lang.reflect.Type;
 import java.util.Objects;
 
 /**
- * Type references to preserve (reify) generic parameters at runtime. This class is immutable and thread-safe as it contains only static methods.
+ * Type references to preserve (reify) generic parameters at runtime. This class
+ * is immutable and thread-safe as it contains only static methods.
  */
 public final class Typed {
 
@@ -43,8 +44,8 @@ public final class Typed {
     /**
      * Factory for three type parameters.
      */
-    public static <A, B, C> Typed3<A, B, C> of(
-            final A a, final B b, final C c, final Class<A> classA, final Class<B> classB, final Class<C> classC) {
+    public static <A, B, C> Typed3<A, B, C> of(final A a, final B b, final C c, final Class<A> classA,
+            final Class<B> classB, final Class<C> classC) {
         Objects.requireNonNull(classA);
         Objects.requireNonNull(classB);
         Objects.requireNonNull(classC);
@@ -64,7 +65,8 @@ public final class Typed {
     }
 
     /**
-     * Abstract class for one type parameter. This class is immutable and thread-safe.
+     * Abstract class for one type parameter. This class is immutable and
+     * thread-safe.
      */
     @SuppressWarnings("AbstractClassWithoutAbstractMethods")
     public abstract static class Typed1<A> {
@@ -98,7 +100,8 @@ public final class Typed {
     }
 
     /**
-     * Abstract class for two type parameters. This class is immutable and thread-safe.
+     * Abstract class for two type parameters. This class is immutable and
+     * thread-safe.
      */
     @SuppressWarnings("AbstractClassWithoutAbstractMethods")
     public abstract static class Typed2<A, B> {

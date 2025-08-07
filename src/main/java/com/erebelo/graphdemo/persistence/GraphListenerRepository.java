@@ -11,10 +11,10 @@ import com.erebelo.graphdemo.model.Node;
 import org.jgrapht.event.GraphListener;
 
 /**
- * Repository that listens to graph events, queueing up persistence operations to
- * apply once the flush() operation is called.  These persistence operations should
- * be lazily evaluated and will be coerced on flush().  Callers must handle invoking
- * rollback() on error or commit() on final success.
+ * Repository that listens to graph events, queueing up persistence operations
+ * to apply once the flush() operation is called. These persistence operations
+ * should be lazily evaluated and will be coerced on flush(). Callers must
+ * handle invoking rollback() on error or commit() on final success.
  */
 @Stable
 public interface GraphListenerRepository extends GraphListener<Node, Edge> {

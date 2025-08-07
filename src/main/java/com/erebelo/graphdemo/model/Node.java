@@ -6,12 +6,12 @@
 package com.erebelo.graphdemo.model;
 
 import com.erebelo.graphdemo.common.annotation.Stable;
-
 import java.util.List;
 
 /**
- * Represents a vertex in the graph that has zero or more edges (which can be incoming or outgoing from the node).
- * Implementations must be immutable and thread-safe.
+ * Represents a vertex in the graph that has zero or more edges (which can be
+ * incoming or outgoing from the node). Implementations must be immutable and
+ * thread-safe.
  */
 @Stable
 public interface Node extends Element {

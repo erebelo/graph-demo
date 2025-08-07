@@ -13,12 +13,12 @@ import com.erebelo.graphdemo.model.simple.SimpleData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.github.wnameless.json.unflattener.JsonUnflattener;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Serde implementation that converts Data to and from flattened properties using the existing DataSerializer.
+ * Serde implementation that converts Data to and from flattened properties
+ * using the existing DataSerializer.
  */
 public final class PropertiesSerde implements Serde<Map<String, Object>> {
 
@@ -31,7 +31,8 @@ public final class PropertiesSerde implements Serde<Map<String, Object>> {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
-     * Serializes Data to flattened properties.  Each value's key will be prefixed by DATA_PREFIX.
+     * Serializes Data to flattened properties. Each value's key will be prefixed by
+     * DATA_PREFIX.
      */
     @Override
     public Map<String, Object> serialize(final Data data) {

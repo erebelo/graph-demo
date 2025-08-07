@@ -7,14 +7,15 @@
 package com.erebelo.graphdemo.common.io.resource;
 
 import com.erebelo.graphdemo.common.fp.Fn1;
-
 import java.net.URI;
 import java.net.URL;
 import java.util.Optional;
 
 /**
- * Helper class to assist in resolving resources from the classpath to a URI. All the classloading methods in this type utilize Class#getResource()
- * rather than ClassLoader#getResource(). Therefore the paths may be either relative or absolute.
+ * Helper class to assist in resolving resources from the classpath to a URI.
+ * All the classloading methods in this type utilize Class#getResource() rather
+ * than ClassLoader#getResource(). Therefore the paths may be either relative or
+ * absolute.
  */
 public final class UriResourceHelper {
 
@@ -25,8 +26,8 @@ public final class UriResourceHelper {
     }
 
     /**
-     * Attempts to resolve the URI of a resource from the curent classpath relative to this class. If not found, an IllegalArgumentException will be
-     * thrown.
+     * Attempts to resolve the URI of a resource from the curent classpath relative
+     * to this class. If not found, an IllegalArgumentException will be thrown.
      */
     public static URI requireUriFromClasspath(final String path) {
 
@@ -34,8 +35,9 @@ public final class UriResourceHelper {
     }
 
     /**
-     * Attempts to resolve the URI of a resource from the curent classpath, relative to the calling class. If not found, an IllegalArgumentException
-     * will be thrown.
+     * Attempts to resolve the URI of a resource from the curent classpath, relative
+     * to the calling class. If not found, an IllegalArgumentException will be
+     * thrown.
      */
     public static URI requireUriFromClasspath(final String path, final Class<?> caller) {
 
@@ -44,7 +46,8 @@ public final class UriResourceHelper {
     }
 
     /**
-     * Attempts to resolve the URI of a resource from the curent classpath, relative to this class.
+     * Attempts to resolve the URI of a resource from the curent classpath, relative
+     * to this class.
      */
     public static Optional<URI> resolveUriFromClasspath(final String path) {
 
@@ -52,7 +55,8 @@ public final class UriResourceHelper {
     }
 
     /**
-     * Attempts to resolve the URI of a resource from the curent classpath, relative to the calling class.
+     * Attempts to resolve the URI of a resource from the curent classpath, relative
+     * to the calling class.
      */
     public static Optional<URI> resolveUriFromClasspath(final String path, final Class<?> caller) {
 
@@ -60,7 +64,8 @@ public final class UriResourceHelper {
     }
 
     /**
-     * Helper method to ensure a value is present, or an IllegalArgumentException will be thrown.
+     * Helper method to ensure a value is present, or an IllegalArgumentException
+     * will be thrown.
      */
     public static <T> T require(final String path, final Optional<T> value) {
 

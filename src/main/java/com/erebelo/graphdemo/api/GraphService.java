@@ -8,11 +8,11 @@ package com.erebelo.graphdemo.api;
 
 import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.model.Path;
-
 import java.util.List;
 
 /**
- * Service for performing graph-wide operations like path finding and connectivity analysis.
+ * Service for performing graph-wide operations like path finding and
+ * connectivity analysis.
  */
 public interface GraphService {
 

@@ -6,15 +6,15 @@
 
 package com.erebelo.graphdemo.common.lock;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Fair lock that is non re-entrant. If the same thread tries to lock() twice, it will deadlock rather than recurse.
+ * Fair lock that is non re-entrant. If the same thread tries to lock() twice,
+ * it will deadlock rather than recurse.
  */
 final class NonReentrantLock implements Lock {
 

@@ -7,7 +7,6 @@
 package com.erebelo.graphdemo.common.io.pipe;
 
 import com.erebelo.graphdemo.common.fp.Fn0;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
@@ -27,8 +26,9 @@ public final class Pipes {
     }
 
     /**
-     * Returns a pipe that reads from an InputStream, writes to an OutputStream and operates with byte[] values. <br> The pipe will not close the
-     * streams passed into its operations.
+     * Returns a pipe that reads from an InputStream, writes to an OutputStream and
+     * operates with byte[] values. <br>
+     * The pipe will not close the streams passed into its operations.
      *
      * @return Pipe Pipe to use
      */
@@ -38,8 +38,10 @@ public final class Pipes {
     }
 
     /**
-     * Returns a pipe that reads from an InputStream, writes to an OutputStream and operates with byte[] values. All suppliers of these values will be
-     * lazilly evaluated. <br> The pipe will not close the streams passed into its operations.
+     * Returns a pipe that reads from an InputStream, writes to an OutputStream and
+     * operates with byte[] values. All suppliers of these values will be lazilly
+     * evaluated. <br>
+     * The pipe will not close the streams passed into its operations.
      *
      * @return Pipe Pipe to use
      */
@@ -49,8 +51,9 @@ public final class Pipes {
     }
 
     /**
-     * Returns a pipe that reads from an Reader, writes to an Writer and operates with String values. <br> The pipe will not close the streams passed
-     * into its operations.
+     * Returns a pipe that reads from an Reader, writes to an Writer and operates
+     * with String values. <br>
+     * The pipe will not close the streams passed into its operations.
      *
      * @return Pipe Pipe to use
      */
@@ -60,8 +63,10 @@ public final class Pipes {
     }
 
     /**
-     * Returns a pipe that reads from an Reader, writes to an Writer and operates with String values. All suppliers of these values will be lazilly
-     * evaluated. <br> The pipe will close the streams passed into its operations.
+     * Returns a pipe that reads from an Reader, writes to an Writer and operates
+     * with String values. All suppliers of these values will be lazilly evaluated.
+     * <br>
+     * The pipe will close the streams passed into its operations.
      *
      * @return Pipe Pipe to use
      */
@@ -71,10 +76,14 @@ public final class Pipes {
     }
 
     /**
-     * Returns a "reverse" Pipe where data is "read" from an output stream and "written" to an input stream. This is useful in a number of situations,
-     * such as where one is producing output on the fly that needs to be read in by another process. <br> Note that this implementation uses
-     * PipedInputStream and PipedOutputStream, so an extra thread is created transparently in the background to buffer the output and input. This
-     * thread does not need to be separately managed. <br> The pipe will not close the streams passed into its operations.
+     * Returns a "reverse" Pipe where data is "read" from an output stream and
+     * "written" to an input stream. This is useful in a number of situations, such
+     * as where one is producing output on the fly that needs to be read in by
+     * another process. <br>
+     * Note that this implementation uses PipedInputStream and PipedOutputStream, so
+     * an extra thread is created transparently in the background to buffer the
+     * output and input. This thread does not need to be separately managed. <br>
+     * The pipe will not close the streams passed into its operations.
      *
      * @return Pipe Pipe to use
      */

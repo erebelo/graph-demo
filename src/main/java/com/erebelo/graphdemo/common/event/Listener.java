@@ -9,7 +9,8 @@ package com.erebelo.graphdemo.common.event;
 /**
  * Interface whose implementations listen for a specific type of event.
  *
- * @param <T> Type that listener will receive
+ * @param <T>
+ *            Type that listener will receive
  */
 @FunctionalInterface
 public interface Listener<T> {
@@ -17,7 +18,8 @@ public interface Listener<T> {
     /**
      * Notify the listener that an event has occurred.
      *
-     * @param event Event to process
+     * @param event
+     *            Event to process
      * @return boolean True if handled, false if not
      */
     boolean notify(T event);

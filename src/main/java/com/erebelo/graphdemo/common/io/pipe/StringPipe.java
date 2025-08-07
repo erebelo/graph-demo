@@ -7,15 +7,15 @@
 package com.erebelo.graphdemo.common.io.pipe;
 
 import com.erebelo.graphdemo.common.fp.Io;
-
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Pipe implementation that reads from Reader, writes to Writer and works with String values. <br> This implementation does not close the streams
- * passed in.
+ * Pipe implementation that reads from Reader, writes to Writer and works with
+ * String values. <br>
+ * This implementation does not close the streams passed in.
  */
 final class StringPipe implements Pipe<String, Reader, Writer> {
 

@@ -10,7 +10,6 @@ import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.io.pipe.Pipes;
 import com.erebelo.graphdemo.common.log.Log;
 import com.erebelo.graphdemo.common.serde.JsonSerde;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -27,7 +26,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
- * HTTP client to facilitate working with REST calls using JSON. The Gson library is used for serde.
+ * HTTP client to facilitate working with REST calls using JSON. The Gson
+ * library is used for serde.
  */
 @SuppressWarnings("ClassWithTooManyMethods")
 public final class HttpJsonClient {
@@ -55,8 +55,8 @@ public final class HttpJsonClient {
     /**
      * Execute a HTTP GET with a JSON payload and expect no HTTP response body.
      */
-    public static int getFormUrlEncodedNoReply(
-            final URI uri, final Map<String, String> headers, final Map<String, String> params) {
+    public static int getFormUrlEncodedNoReply(final URI uri, final Map<String, String> headers,
+            final Map<String, String> params) {
 
         final HttpResponse<?> response = execute(() -> toGetFormUrlEncoded(uri, headers, params));
         return response.statusCode();
@@ -65,8 +65,8 @@ public final class HttpJsonClient {
     /**
      * Execute a HTTP POST with a JSON payload and expect no HTTP response body.
      */
-    public static int postFormUrlEncodedNoReply(
-            final URI uri, final Map<String, String> headers, final Map<String, String> params) {
+    public static int postFormUrlEncodedNoReply(final URI uri, final Map<String, String> headers,
+            final Map<String, String> params) {
 
         final HttpResponse<?> response = execute(() -> toPostFormUrlEncoded(uri, headers, params));
         return response.statusCode();
@@ -84,8 +84,8 @@ public final class HttpJsonClient {
     /**
      * Execute a HTTP GET and expect a JSON response in the HTTP reply.
      */
-    public static <T> T getUrlEncodedWithReply(
-            final URI uri, final Map<String, String> headers, final Map<String, String> params, final Class<T> target) {
+    public static <T> T getUrlEncodedWithReply(final URI uri, final Map<String, String> headers,
+            final Map<String, String> params, final Class<T> target) {
 
         return executeWithReply(() -> toGetFormUrlEncoded(uri, headers, params), target);
     }
@@ -99,19 +99,21 @@ public final class HttpJsonClient {
     }
 
     /**
-     * Execute a HTTP POST with a JSON payload and expect a JSON response in the HTTP reply.
+     * Execute a HTTP POST with a JSON payload and expect a JSON response in the
+     * HTTP reply.
      */
-    public static <T> T postFormUrlEncodedWithReply(
-            final URI uri, final Map<String, String> headers, final Map<String, String> params, final Class<T> target) {
+    public static <T> T postFormUrlEncodedWithReply(final URI uri, final Map<String, String> headers,
+            final Map<String, String> params, final Class<T> target) {
 
         return executeWithReply(() -> toPostFormUrlEncoded(uri, headers, params), target);
     }
 
     /**
-     * Execute a HTTP POST with a JSON payload and expect a JSON response in the HTTP reply.
+     * Execute a HTTP POST with a JSON payload and expect a JSON response in the
+     * HTTP reply.
      */
-    public static <R, T> T postJsonWithReply(
-            final URI uri, final Map<String, String> headers, final R requestBody, final Class<T> target) {
+    public static <R, T> T postJsonWithReply(final URI uri, final Map<String, String> headers, final R requestBody,
+            final Class<T> target) {
 
         return executeWithReply(() -> toJsonRequest(uri, headers, requestBody), target);
     }
@@ -140,7 +142,8 @@ public final class HttpJsonClient {
     }
 
     /**
-     * Internal method to consistently execute a request and then validate and return the response.
+     * Internal method to consistently execute a request and then validate and
+     * return the response.
      */
     private static HttpResponse<InputStream> execute(final Supplier<HttpRequest> fx) {
 
@@ -164,33 +167,36 @@ public final class HttpJsonClient {
         final var builder = HttpRequest.newBuilder().uri(uri);
         populateHeaders(headers, builder);
         final var request = builder.build();
-        Log.debug(HttpJsonClient.class, () -> "HTTP request sent: %n%s%n"
-                .formatted(HttpPrettyPrinter.toString(request, Optional.empty())));
+        Log.debug(HttpJsonClient.class,
+                () -> "HTTP request sent: %n%s%n".formatted(HttpPrettyPrinter.toString(request, Optional.empty())));
         return request;
     }
 
     /**
-     * Consitently creates a HTTP GET request from a URI with a form-urlencoded payload.
+     * Consitently creates a HTTP GET request from a URI with a form-urlencoded
+     * payload.
      */
-    private static HttpRequest toGetFormUrlEncoded(
-            final URI uri, final Map<String, String> headers, final Map<String, String> params) {
+    private static HttpRequest toGetFormUrlEncoded(final URI uri, final Map<String, String> headers,
+            final Map<String, String> params) {
 
         final var queryString = toUrlEncoded(params);
         return toGetRequest(URI.create("%s?%s".formatted(uri.toString(), queryString)), headers);
     }
 
     /**
-     * Consitently creates a HTTP POST request from a URI with a form-urlencoded payload.
+     * Consitently creates a HTTP POST request from a URI with a form-urlencoded
+     * payload.
      */
-    private static HttpRequest toPostFormUrlEncoded(
-            final URI uri, final Map<String, String> headers, final Map<String, String> params) {
+    private static HttpRequest toPostFormUrlEncoded(final URI uri, final Map<String, String> headers,
+            final Map<String, String> params) {
 
         final var body = toUrlEncoded(params);
         return toPostRequest(uri, headers, "application/x-www-form-urlencoded", body);
     }
 
     /**
-     * Helper method to transform a set of key/value pairs into a url-encoded string.
+     * Helper method to transform a set of key/value pairs into a url-encoded
+     * string.
      */
     private static String toUrlEncoded(final Map<String, String> params) {
 
@@ -202,8 +208,8 @@ public final class HttpJsonClient {
     /**
      * Consitently creates a HTTP POST request from a URI with a JSON payload.
      */
-    private static <R> HttpRequest toJsonRequest(
-            final URI uri, final Map<String, String> headers, final R requestBody) {
+    private static <R> HttpRequest toJsonRequest(final URI uri, final Map<String, String> headers,
+            final R requestBody) {
 
         final var json = JsonSerde.toJson(requestBody);
         return toPostRequest(uri, headers, "application/json", json);
@@ -212,17 +218,15 @@ public final class HttpJsonClient {
     /**
      * Helper method to consistently construct HTTP POST request.
      */
-    private static HttpRequest toPostRequest(
-            final URI uri, final Map<String, String> headers, final String contentType, final String body) {
+    private static HttpRequest toPostRequest(final URI uri, final Map<String, String> headers, final String contentType,
+            final String body) {
 
-        final var builder = HttpRequest.newBuilder()
-                .uri(uri)
-                .header("Content-type", "%s; charset=UTF-8".formatted(contentType))
-                .POST(BodyPublishers.ofString(body));
+        final var builder = HttpRequest.newBuilder().uri(uri)
+                .header("Content-type", "%s; charset=UTF-8".formatted(contentType)).POST(BodyPublishers.ofString(body));
         populateHeaders(headers, builder);
         final var request = builder.build();
-        Log.debug(HttpJsonClient.class, () -> "HTTP request sent: %n%s%n"
-                .formatted(HttpPrettyPrinter.toString(request, Optional.of(body))));
+        Log.debug(HttpJsonClient.class,
+                () -> "HTTP request sent: %n%s%n".formatted(HttpPrettyPrinter.toString(request, Optional.of(body))));
         return request;
     }
 

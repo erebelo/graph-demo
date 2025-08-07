@@ -8,13 +8,13 @@ package com.erebelo.graphdemo.common.io.pipe;
 
 import com.erebelo.graphdemo.common.fp.Fn0;
 import com.erebelo.graphdemo.common.fp.Io;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Pipe implementation that reads from InputStream, writes to OutputStream and works with byte[] values. All suppliers are lazily evaluated. <br> This
- * implementation will close the streams passed in.
+ * Pipe implementation that reads from InputStream, writes to OutputStream and
+ * works with byte[] values. All suppliers are lazily evaluated. <br>
+ * This implementation will close the streams passed in.
  */
 final class BytesSupplierPipe implements Pipe<byte[], Fn0<? extends InputStream>, Fn0<? extends OutputStream>> {
 
@@ -56,8 +56,7 @@ final class BytesSupplierPipe implements Pipe<byte[], Fn0<? extends InputStream>
     public long go(Fn0<? extends InputStream> in, Fn0<? extends OutputStream> out, int bufferSize) {
 
         return Io.withReturn(() -> {
-            try (var streamIn = in.get();
-                 var streamOut = out.get()) {
+            try (var streamIn = in.get(); var streamOut = out.get()) {
                 return delegate.go(streamIn, streamOut, bufferSize);
             }
         });

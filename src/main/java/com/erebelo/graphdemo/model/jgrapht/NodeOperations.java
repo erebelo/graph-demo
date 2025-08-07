@@ -15,9 +15,6 @@ import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.Operations;
 import com.erebelo.graphdemo.model.simple.SimpleEdge;
 import com.erebelo.graphdemo.model.simple.SimpleNode;
-import org.jgrapht.Graph;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
+import org.jgrapht.Graph;
+import org.springframework.stereotype.Service;
 
 /**
  * JGraphT-based implementation of node operations for versioned graph elements.
@@ -55,7 +54,8 @@ public class NodeOperations implements Operations<Node> {
     public Node add(final Data data, final Instant timestamp) {
 
         final var locator = Locator.generate();
-        // TODO Should I call EdgeOperations#findEdgesAt here.  If yes, how to avoid fetching whole graph?
+        // TODO Should I call EdgeOperations#findEdgesAt here. If yes, how to avoid
+        // fetching whole graph?
         final var node = new SimpleNode(locator, new ArrayList<>(), data, timestamp, Optional.empty());
         graph.addVertex(node);
         return node;
@@ -115,12 +115,10 @@ public class NodeOperations implements Operations<Node> {
      */
     public List<Node> getNeighbors(final Node node) {
 
-        final var outgoingNeighbors = graph.outgoingEdgesOf(node).stream()
-                .filter(edge -> edge.expired().isEmpty())
+        final var outgoingNeighbors = graph.outgoingEdgesOf(node).stream().filter(edge -> edge.expired().isEmpty())
                 .map(Edge::target);
 
-        final var incomingNeighbors = graph.incomingEdgesOf(node).stream()
-                .filter(edge -> edge.expired().isEmpty())
+        final var incomingNeighbors = graph.incomingEdgesOf(node).stream().filter(edge -> edge.expired().isEmpty())
                 .map(Edge::source);
 
         return Stream.concat(outgoingNeighbors, incomingNeighbors).toList();
@@ -138,8 +136,8 @@ public class NodeOperations implements Operations<Node> {
         expireActiveEdges(allConnectedEdges, timestamp);
 
         // Create expired node
-        final var expiredNode =
-                new SimpleNode(node.locator(), node.edges(), node.data(), node.created(), Optional.of(timestamp));
+        final var expiredNode = new SimpleNode(node.locator(), node.edges(), node.data(), node.created(),
+                Optional.of(timestamp));
 
         // Remove old node and add expired version
         graph.removeVertex(node); // This removes all connected edges
@@ -156,12 +154,10 @@ public class NodeOperations implements Operations<Node> {
      */
     private List<EdgeRecreationInfo> collectActiveEdgeInfo(final Node node) {
 
-        final var incomingEdgeInfo = graph.incomingEdgesOf(node).stream()
-                .filter(edge -> edge.expired().isEmpty())
+        final var incomingEdgeInfo = graph.incomingEdgesOf(node).stream().filter(edge -> edge.expired().isEmpty())
                 .map(edge -> new EdgeRecreationInfo(edge.source(), node, edge.data(), true));
 
-        final var outgoingEdgeInfo = graph.outgoingEdgesOf(node).stream()
-                .filter(edge -> edge.expired().isEmpty())
+        final var outgoingEdgeInfo = graph.outgoingEdgesOf(node).stream().filter(edge -> edge.expired().isEmpty())
                 .map(edge -> new EdgeRecreationInfo(node, edge.target(), edge.data(), false));
 
         return Stream.concat(incomingEdgeInfo, outgoingEdgeInfo).toList();
@@ -183,16 +179,15 @@ public class NodeOperations implements Operations<Node> {
      */
     private void expireActiveEdges(final Collection<Edge> edges, final Instant timestamp) {
 
-        edges.stream()
-                .filter(edge -> edge.expired().isEmpty())
+        edges.stream().filter(edge -> edge.expired().isEmpty())
                 .forEach(edge -> edgeDelegate.expire(edge.locator().id(), timestamp));
     }
 
     /**
      * Recreates edges for a new node version.
      */
-    private void recreateEdgesForNode(
-            final Node newNode, final Iterable<EdgeRecreationInfo> edgeInfo, final Instant timestamp) {
+    private void recreateEdgesForNode(final Node newNode, final Iterable<EdgeRecreationInfo> edgeInfo,
+            final Instant timestamp) {
 
         edgeInfo.forEach(info -> {
             if (info.incoming()) {
@@ -206,22 +201,21 @@ public class NodeOperations implements Operations<Node> {
     /**
      * Recreates edges after a node has been expired.
      */
-    private void recreateEdgesAfterNodeExpiry(
-            final Node expiredNode,
-            final Node originalNode,
-            final Iterable<Edge> allConnectedEdges,
-            final Instant timestamp) {
+    private void recreateEdgesAfterNodeExpiry(final Node expiredNode, final Node originalNode,
+            final Iterable<Edge> allConnectedEdges, final Instant timestamp) {
 
         allConnectedEdges.forEach(edge -> {
-            // Update the source/target to point to the expired node if it was the original node
+            // Update the source/target to point to the expired node if it was the original
+            // node
             final var source = edge.source().equals(originalNode) ? expiredNode : edge.source();
             final var target = edge.target().equals(originalNode) ? expiredNode : edge.target();
 
-            // If this edge was active, expire it; if it was already expired, keep its expiry time
+            // If this edge was active, expire it; if it was already expired, keep its
+            // expiry time
             final var expiredTime = edge.expired().isPresent() ? edge.expired().get() : timestamp;
 
-            final var recreatedEdge = new SimpleEdge(
-                    edge.locator(), source, target, edge.data(), edge.created(), Optional.of(expiredTime));
+            final var recreatedEdge = new SimpleEdge(edge.locator(), source, target, edge.data(), edge.created(),
+                    Optional.of(expiredTime));
             graph.addEdge(source, target, recreatedEdge);
         });
     }

@@ -8,12 +8,12 @@ package com.erebelo.graphdemo.common.fp;
 
 import com.erebelo.graphdemo.common.adt.Either;
 import com.erebelo.graphdemo.common.error.IoException;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Encapsulates operations that have side-effects (ala functional programming). This type behaves nearly identically to Try, but this type will throw
+ * Encapsulates operations that have side-effects (ala functional programming).
+ * This type behaves nearly identically to Try, but this type will throw
  * IoException instead of UnexpectedException.
  */
 public final class Io {
@@ -25,7 +25,8 @@ public final class Io {
     }
 
     /**
-     * Execute the specified function and return either any errors that occurred (left) or the result of successfuly processing (right).
+     * Execute the specified function and return either any errors that occurred
+     * (left) or the result of successfuly processing (right).
      */
     public static <T> Either<Exception, T> withEither(final Fn0<T> fx) {
 
@@ -52,7 +53,8 @@ public final class Io {
     }
 
     /**
-     * Execute the specified runnable, using the exception handler specified and a finalzier to run in all cases.
+     * Execute the specified runnable, using the exception handler specified and a
+     * finalzier to run in all cases.
      */
     public static void withVoid(final Proc0 fx, final Consumer<Exception> ex, final Runnable finalizer) {
 
@@ -79,10 +81,11 @@ public final class Io {
     }
 
     /**
-     * Execute the specified supplier, using the exception handler specified and a finalzier to run in all cases.
+     * Execute the specified supplier, using the exception handler specified and a
+     * finalzier to run in all cases.
      */
-    public static <R> R withReturn(
-            final Fn0<? extends R> fx, final Function<Exception, R> ex, final Runnable finalizer) {
+    public static <R> R withReturn(final Fn0<? extends R> fx, final Function<Exception, R> ex,
+            final Runnable finalizer) {
 
         return Try.withReturn(fx, ex, finalizer);
     }

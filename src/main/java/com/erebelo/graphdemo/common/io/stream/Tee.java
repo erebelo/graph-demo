@@ -6,14 +6,13 @@
 
 package com.erebelo.graphdemo.common.io.stream;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * An output stream that writes to n underlying streams sequentially.
@@ -28,7 +27,8 @@ public final class Tee extends OutputStream {
     /**
      * Creates a tee that will output to the specified streams.
      *
-     * @param streams Additional output streams to write to
+     * @param streams
+     *            Additional output streams to write to
      */
     public Tee(final OutputStream... streams) {
 
@@ -95,10 +95,13 @@ public final class Tee extends OutputStream {
     }
 
     /**
-     * Helper method to safely close a stream and ensure that remaining streams can still be closed.
+     * Helper method to safely close a stream and ensure that remaining streams can
+     * still be closed.
      *
-     * @param target Stream to close
-     * @param ex     Exception to eventually throw if any errors exist
+     * @param target
+     *            Stream to close
+     * @param ex
+     *            Exception to eventually throw if any errors exist
      */
     private static void closeInternal(final Closeable target, final Exception ex) {
 

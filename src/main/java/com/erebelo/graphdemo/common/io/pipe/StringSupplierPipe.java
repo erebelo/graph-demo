@@ -8,13 +8,13 @@ package com.erebelo.graphdemo.common.io.pipe;
 
 import com.erebelo.graphdemo.common.fp.Fn0;
 import com.erebelo.graphdemo.common.fp.Io;
-
 import java.io.Reader;
 import java.io.Writer;
 
 /**
- * Pipe implementation that reads from Reader, writes to Writer and works with String values. All suppliers are lazily evaluated. <br> This
- * implementation will close the streams passed in.
+ * Pipe implementation that reads from Reader, writes to Writer and works with
+ * String values. All suppliers are lazily evaluated. <br>
+ * This implementation will close the streams passed in.
  */
 final class StringSupplierPipe implements Pipe<String, Fn0<? extends Reader>, Fn0<? extends Writer>> {
 
@@ -56,8 +56,7 @@ final class StringSupplierPipe implements Pipe<String, Fn0<? extends Reader>, Fn
     public long go(Fn0<? extends Reader> reader, Fn0<? extends Writer> writer, int bufferSize) {
 
         return Io.withReturn(() -> {
-            try (var r = reader.get();
-                 var w = writer.get()) {
+            try (var r = reader.get(); var w = writer.get()) {
                 return delegate.go(r, w, bufferSize);
             }
         });

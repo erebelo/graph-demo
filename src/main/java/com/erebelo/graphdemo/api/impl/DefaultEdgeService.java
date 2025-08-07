@@ -15,12 +15,11 @@ import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.jgrapht.EdgeOperations;
 import com.erebelo.graphdemo.model.jgrapht.NodeOperations;
 import com.erebelo.graphdemo.persistence.GraphRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Default implementation of EdgeService using session-based transactions.
@@ -32,9 +31,7 @@ public final class DefaultEdgeService implements EdgeService {
     private final EdgeOperations edgeOperations;
     private final NodeOperations nodeOperations;
 
-    public DefaultEdgeService(
-            final GraphRepository repository,
-            final EdgeOperations edgeOperations,
+    public DefaultEdgeService(final GraphRepository repository, final EdgeOperations edgeOperations,
             final NodeOperations nodeOperations) {
 
         this.repository = repository;
@@ -63,8 +60,7 @@ public final class DefaultEdgeService implements EdgeService {
     @Transactional(readOnly = true)
     public List<Edge> getEdgesFrom(final NanoId nodeId) {
 
-        final var node = nodeOperations
-                .findActive(nodeId)
+        final var node = nodeOperations.findActive(nodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Node not found: " + nodeId));
         return edgeOperations.getEdgesFrom(node);
     }
@@ -73,8 +69,7 @@ public final class DefaultEdgeService implements EdgeService {
     @Transactional(readOnly = true)
     public List<Edge> getEdgesTo(final NanoId nodeId) {
 
-        final var node = nodeOperations
-                .findActive(nodeId)
+        final var node = nodeOperations.findActive(nodeId)
                 .orElseThrow(() -> new IllegalArgumentException("Node not found: " + nodeId));
         return edgeOperations.getEdgesTo(node);
     }
@@ -83,9 +78,7 @@ public final class DefaultEdgeService implements EdgeService {
     @Transactional(readOnly = true)
     public Edge find(final Locator locator) {
 
-        return repository
-                .edges()
-                .find(locator)
+        return repository.edges().find(locator)
                 .orElseThrow(() -> new IllegalArgumentException("Edge not found: " + locator));
     }
 

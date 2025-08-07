@@ -7,7 +7,6 @@
 package com.erebelo.graphdemo.common.serde;
 
 import com.erebelo.graphdemo.common.error.IoException;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -68,7 +67,8 @@ public final class JavaSerde {
     }
 
     /**
-     * Deserializes the data in the specified stream, returning the target type requested.
+     * Deserializes the data in the specified stream, returning the target type
+     * requested.
      */
     public static <T extends Serializable> T deserialize(final InputStream in, final Class<T> target) {
 

@@ -6,15 +6,15 @@
 
 package com.erebelo.graphdemo.common.io.stream;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.EOFException;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Input stream that will throw an EOFException once a pre-set maximum number of bytes has been read.
+ * Input stream that will throw an EOFException once a pre-set maximum number of
+ * bytes has been read.
  */
 public final class FiniteOutputStream extends FilterOutputStream {
 
@@ -26,8 +26,10 @@ public final class FiniteOutputStream extends FilterOutputStream {
     /**
      * Creates a finite input stream that will only read up to maximum bytes.
      *
-     * @param out          Output stream to write
-     * @param maximumBytes Maximum bytes before output will cease
+     * @param out
+     *            Output stream to write
+     * @param maximumBytes
+     *            Maximum bytes before output will cease
      */
     public FiniteOutputStream(final OutputStream out, final long maximumBytes) {
 

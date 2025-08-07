@@ -8,13 +8,14 @@ package com.erebelo.graphdemo.common.fp;
 
 import com.erebelo.graphdemo.common.adt.Either;
 import com.erebelo.graphdemo.common.error.UnexpectedException;
-
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Semi-functional (as in functional programming, the class is fully working) implementation that allows callers to safely handle code that may throw
- * an exception without using try-catch blocks themselves. This class is immutable and thread-safe as it contains only static methods.
+ * Semi-functional (as in functional programming, the class is fully working)
+ * implementation that allows callers to safely handle code that may throw an
+ * exception without using try-catch blocks themselves. This class is immutable
+ * and thread-safe as it contains only static methods.
  */
 public final class Try {
 
@@ -25,7 +26,8 @@ public final class Try {
     }
 
     /**
-     * Execute the specified function and return either any errors that occurred (left) or the result of successfully processing (right).
+     * Execute the specified function and return either any errors that occurred
+     * (left) or the result of successfully processing (right).
      */
     public static <T> Either<Exception, T> withEither(final Fn0<? extends T> fx) {
 
@@ -56,7 +58,8 @@ public final class Try {
     }
 
     /**
-     * Execute the specified runnable, using the exception handler specified and a finalizer to run in all cases.
+     * Execute the specified runnable, using the exception handler specified and a
+     * finalizer to run in all cases.
      */
     public static void withVoid(final Proc0 fx, final Consumer<Exception> ex, final Runnable finalizer) {
 
@@ -89,10 +92,11 @@ public final class Try {
     }
 
     /**
-     * Execute the specified supplier, using the exception handler specified and a finalizer to run in all cases.
+     * Execute the specified supplier, using the exception handler specified and a
+     * finalizer to run in all cases.
      */
-    public static <R> R withReturn(
-            final Fn0<? extends R> fx, final Function<Exception, R> ex, final Runnable finalizer) {
+    public static <R> R withReturn(final Fn0<? extends R> fx, final Function<Exception, R> ex,
+            final Runnable finalizer) {
 
         try {
             return fx.get();

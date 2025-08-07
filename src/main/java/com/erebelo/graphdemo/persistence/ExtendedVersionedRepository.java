@@ -9,11 +9,11 @@ package com.erebelo.graphdemo.persistence;
 import com.erebelo.graphdemo.common.persist.VersionedRepository;
 import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.common.version.Versioned;
-
 import java.util.List;
 
 /**
- * Extended versioned repository with additional operations for retrieving all IDs.
+ * Extended versioned repository with additional operations for retrieving all
+ * IDs.
  */
 public interface ExtendedVersionedRepository<T extends Versioned> extends VersionedRepository<T> {
 

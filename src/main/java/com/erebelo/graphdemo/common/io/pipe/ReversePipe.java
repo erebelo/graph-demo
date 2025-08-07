@@ -8,7 +8,6 @@ package com.erebelo.graphdemo.common.io.pipe;
 
 import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.log.Log;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -18,10 +17,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Returns a "reverse" Pipe where data is "read" from an output stream and "written" to an input stream. This is useful in a number of situations,
- * such as where one is producing output on the fly that needs to be read in by another process. <br> Note that this implementation uses
- * PipedInputStream and PipedOutputStream, so an extra thread is created transparently in the background to buffer the output and input. This thread
- * does not need to be separately managed. <br> The pipe will not close the streams passed into its operations.
+ * Returns a "reverse" Pipe where data is "read" from an output stream and
+ * "written" to an input stream. This is useful in a number of situations, such
+ * as where one is producing output on the fly that needs to be read in by
+ * another process. <br>
+ * Note that this implementation uses PipedInputStream and PipedOutputStream, so
+ * an extra thread is created transparently in the background to buffer the
+ * output and input. This thread does not need to be separately managed. <br>
+ * The pipe will not close the streams passed into its operations.
  */
 final class ReversePipe implements Pipe<byte[], Consumer<OutputStream>, Function<InputStream, Long>> {
 

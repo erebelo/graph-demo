@@ -10,12 +10,10 @@ import com.erebelo.graphdemo.common.version.Locator;
 import com.erebelo.graphdemo.model.Component;
 import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Element;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-public record SimpleComponent(
-        Locator locator, List<Element> elements, Data data, Instant created, Optional<Instant> expired)
-        implements Component {
+public record SimpleComponent(Locator locator, List<Element> elements, Data data, Instant created,
+        Optional<Instant> expired) implements Component {
 }

@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-
 import java.io.Reader;
 import java.io.Writer;
 import java.util.function.Supplier;
 
 /**
- * Allows for serialization and desrialization of objects to and from JSON. This types abstracts away the underlying implementation.
+ * Allows for serialization and desrialization of objects to and from JSON. This
+ * types abstracts away the underlying implementation.
  */
 public final class JsonSerde {
 
@@ -86,8 +86,8 @@ public final class JsonSerde {
     }
 
     /**
-     * Attempts to remove JSON symbols and delimiters to output JSON that could not be parsed (either came in as an unexpected type or is invalid
-     * format).
+     * Attempts to remove JSON symbols and delimiters to output JSON that could not
+     * be parsed (either came in as an unexpected type or is invalid format).
      */
     @SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
     public static String prettify(final String maybeJson) {

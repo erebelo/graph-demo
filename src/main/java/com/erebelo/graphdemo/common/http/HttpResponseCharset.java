@@ -8,7 +8,6 @@ package com.erebelo.graphdemo.common.http;
 
 import com.erebelo.graphdemo.common.fp.Io;
 import com.erebelo.graphdemo.common.log.Log;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -49,18 +48,17 @@ final class HttpResponseCharset {
     }
 
     /**
-     * Parses the HTTP response to determine the appropriate character set to use from the Content-Type header.
+     * Parses the HTTP response to determine the appropriate character set to use
+     * from the Content-Type header.
      */
     public static Charset parse(final HttpResponse<?> response) {
 
-        return response.headers()
-                .firstValue(HEADER)
-                .map(HttpResponseCharset::parseHeader)
-                .orElse(DEFAULT);
+        return response.headers().firstValue(HEADER).map(HttpResponseCharset::parseHeader).orElse(DEFAULT);
     }
 
     /**
-     * Returns a reader with the appropriate character set from the supplied response.
+     * Returns a reader with the appropriate character set from the supplied
+     * response.
      */
     public static Reader getReader(final HttpResponse<InputStream> response) {
 
@@ -72,15 +70,11 @@ final class HttpResponseCharset {
      */
     private static Charset parseHeader(final String contentType) {
 
-        return Arrays.stream(contentType.split(DELIMITER))
-                .map(v -> v.toLowerCase().trim())
-                .filter(v -> v.startsWith(TOKEN))
-                .findFirst()
-                .map(v -> v.substring(TOKEN.length()))
+        return Arrays.stream(contentType.split(DELIMITER)).map(v -> v.toLowerCase().trim())
+                .filter(v -> v.startsWith(TOKEN)).findFirst().map(v -> v.substring(TOKEN.length()))
                 .map(v -> Io.withReturn(() -> Charset.forName(v), e -> {
                     Log.error(HttpResponseCharset.class, () -> "Invalid charset %s".formatted(v), e);
                     return DEFAULT;
-                }))
-                .orElse(DEFAULT);
+                })).orElse(DEFAULT);
     }
 }

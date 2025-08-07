@@ -6,23 +6,26 @@
 
 package com.erebelo.graphdemo.common.log;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * General purpose logging utility class. This currently delegates out to SLF4J. The methods all accept suppliers, so the messages are lazily
- * evaluated. Therefore, you should not have to worry about a given logging level being enabled (since this type will check that for you). An example
- * usage:
+ * General purpose logging utility class. This currently delegates out to SLF4J.
+ * The methods all accept suppliers, so the messages are lazily evaluated.
+ * Therefore, you should not have to worry about a given logging level being
+ * enabled (since this type will check that for you). An example usage:
  *
- * <p>{@code LOG.error(Foo.class, () -> "Unable to initialize component"); }
+ * <p>
+ * {@code LOG.error(Foo.class, () -> "Unable to initialize component"); }
  *
- * <p>Note that logging is typically set up via a Micronaut container or runtime. The configuration
- * for logging is controlled by the logback.xml file normally located in src/main/resourecs (or anywhere that can be resolved at the root of the
- * classpath).
+ * <p>
+ * Note that logging is typically set up via a Micronaut container or runtime.
+ * The configuration for logging is controlled by the logback.xml file normally
+ * located in src/main/resourecs (or anywhere that can be resolved at the root
+ * of the classpath).
  */
 public final class Log {
 
@@ -35,8 +38,10 @@ public final class Log {
     /**
      * Log at the trace level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
      */
     public static void trace(final Class<?> caller, final Supplier<String> message) {
 
@@ -46,9 +51,12 @@ public final class Log {
     /**
      * Log at the trace level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
-     * @param t       Exception encountered
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
+     * @param t
+     *            Exception encountered
      */
     public static void trace(final Class<?> caller, final Supplier<String> message, final Throwable t) {
 
@@ -58,8 +66,10 @@ public final class Log {
     /**
      * Log at the debug level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
      */
     public static void debug(final Class<?> caller, final Supplier<String> message) {
 
@@ -69,9 +79,12 @@ public final class Log {
     /**
      * Log at the debug level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
-     * @param t       Exception encountered
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
+     * @param t
+     *            Exception encountered
      */
     public static void debug(final Class<?> caller, final Supplier<String> message, final Throwable t) {
 
@@ -81,8 +94,10 @@ public final class Log {
     /**
      * Log at the info level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
      */
     public static void info(final Class<?> caller, final Supplier<String> message) {
 
@@ -92,9 +107,12 @@ public final class Log {
     /**
      * Log at the info level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
-     * @param t       Exception encountered
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
+     * @param t
+     *            Exception encountered
      */
     public static void info(final Class<?> caller, final Supplier<String> message, final Throwable t) {
 
@@ -104,8 +122,10 @@ public final class Log {
     /**
      * Log at the warn level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
      */
     public static void warn(final Class<?> caller, final Supplier<String> message) {
 
@@ -115,9 +135,12 @@ public final class Log {
     /**
      * Log at the warn level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
-     * @param t       Exception encountered
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
+     * @param t
+     *            Exception encountered
      */
     public static void warn(final Class<?> caller, final Supplier<String> message, final Throwable t) {
 
@@ -127,8 +150,10 @@ public final class Log {
     /**
      * Log at the error level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
      */
     public static void error(final Class<?> caller, final Supplier<String> message) {
 
@@ -138,9 +163,12 @@ public final class Log {
     /**
      * Log at the error level.
      *
-     * @param caller  Calling type
-     * @param message Message to output
-     * @param t       Exception encountered
+     * @param caller
+     *            Calling type
+     * @param message
+     *            Message to output
+     * @param t
+     *            Exception encountered
      */
     public static void error(final Class<?> caller, final Supplier<String> message, final Throwable t) {
 
@@ -148,12 +176,16 @@ public final class Log {
     }
 
     /**
-     * Helper method for all logging levels that obtains a reference to the proper logger, which is based on the calling class, and ensures that the
-     * log should be output based on the logging level specified.
+     * Helper method for all logging levels that obtains a reference to the proper
+     * logger, which is based on the calling class, and ensures that the log should
+     * be output based on the logging level specified.
      *
-     * @param caller  Calling type
-     * @param enabled Predicate to test if logging is enabled
-     * @param fx      Consuming function to call to emit the log message
+     * @param caller
+     *            Calling type
+     * @param enabled
+     *            Predicate to test if logging is enabled
+     * @param fx
+     *            Consuming function to call to emit the log message
      */
     private static void log(final Class<?> caller, final Predicate<Logger> enabled, final Consumer<Logger> fx) {
 

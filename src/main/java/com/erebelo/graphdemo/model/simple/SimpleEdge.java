@@ -12,33 +12,20 @@ import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
 import com.erebelo.graphdemo.model.Type;
-
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public record SimpleEdge(
-        Locator locator,
-        Type type,
-        Node source,
-        Node target,
-        Data data,
-        Instant created,
-        Optional<Instant> expired,
-        Set<NanoId> components)
-        implements Edge {
+public record SimpleEdge(Locator locator, Type type, Node source, Node target, Data data, Instant created,
+        Optional<Instant> expired, Set<NanoId> components) implements Edge {
 
     /**
-     * Constructor that initializes components to empty set and type to SimpleType("edge").
+     * Constructor that initializes components to empty set and type to
+     * SimpleType("edge").
      */
-    public SimpleEdge(
-            final Locator locator,
-            final Node source,
-            final Node target,
-            final Data data,
-            final Instant created,
-            final Optional<Instant> expired) {
+    public SimpleEdge(final Locator locator, final Node source, final Node target, final Data data,
+            final Instant created, final Optional<Instant> expired) {
 
         this(locator, new SimpleType("edge"), source, target, data, created, expired, new HashSet<>());
     }

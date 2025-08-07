@@ -10,11 +10,10 @@ import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.model.Data;
 import com.erebelo.graphdemo.model.Edge;
 import com.erebelo.graphdemo.model.Node;
-
 import java.util.List;
 
 /**
- * Service for retrieving and manipulating edges in the graph.  Within the graph,
+ * Service for retrieving and manipulating edges in the graph. Within the graph,
  * two nodes can contain multiple, parallel edges.
  */
 public interface EdgeService extends IdentifiableBase<Edge> {

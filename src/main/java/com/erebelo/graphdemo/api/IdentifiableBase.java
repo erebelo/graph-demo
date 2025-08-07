@@ -9,14 +9,13 @@ package com.erebelo.graphdemo.api;
 import com.erebelo.graphdemo.common.version.Locator;
 import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.common.version.Versioned;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Interface defining common behavior across Node, Edge and Component services.
- * This interface is not meant to be used directly.  Please see insetad
+ * This interface is not meant to be used directly. Please see insetad
  * NodeService, EdgeService and ComponentService.
  */
 interface IdentifiableBase<T extends Versioned> {
@@ -33,7 +32,8 @@ interface IdentifiableBase<T extends Versioned> {
     Optional<T> findActive(NanoId id);
 
     /**
-     * Returns the version of the specpfied ID that existed at the specified timestamp (active or inactive).
+     * Returns the version of the specpfied ID that existed at the specified
+     * timestamp (active or inactive).
      */
     Optional<T> findAt(NanoId id, Instant timestamp);
 
@@ -53,13 +53,14 @@ interface IdentifiableBase<T extends Versioned> {
     List<NanoId> all();
 
     /**
-     * Expires (makes inactive) the specified ID.  This also serves a a logical delete.
-     * The expired entry is returned if the ID existed.
+     * Expires (makes inactive) the specified ID. This also serves a a logical
+     * delete. The expired entry is returned if the ID existed.
      */
     Optional<T> expire(NanoId id);
 
     /**
-     * Fully and permanently deletes the specified ID from the graph.  True is returned if the item existed previously.
+     * Fully and permanently deletes the specified ID from the graph. True is
+     * returned if the item existed previously.
      */
     boolean delete(NanoId id);
 }

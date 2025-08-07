@@ -8,7 +8,6 @@ package com.erebelo.graphdemo.model;
 
 import com.erebelo.graphdemo.common.version.NanoId;
 import com.erebelo.graphdemo.common.version.Versioned;
-
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
